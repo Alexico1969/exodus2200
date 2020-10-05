@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, url_for, session
 import MySQLdb
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
-from database import read_invitation_codes
+from database import read_invitation_codes, check_credentials
 from helper import hash_password, verify_password
 
 app = Flask(__name__)
@@ -33,6 +33,7 @@ def home():
 def login_page():
     message = ""
     if request.method == 'POST':
+        cur = mysql.cursor()
         if request.form.get("R") == "register":
             return redirect(url_for('register'))
         else:
@@ -44,8 +45,12 @@ def login_page():
             session['logged_in'] = True
             session['admin'] = True
             return redirect(url_for('home'))
+        elif check_credentials(username, password, cur):
+            message = "You are logged in as " + str(username)
+            cur.close()
+            return render_template("message.html", message=message, goto="/")
         else:
-            message="username or password unknown"
+            message="username unknown or wrong password"
 
 
     return render_template("login.html", message=message)
