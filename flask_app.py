@@ -48,6 +48,8 @@ def login_page():
         elif check_credentials(username, password, cur):
             message = "You are logged in as " + str(username)
             cur.close()
+            session['logged_in'] = True
+            session['admin'] = False
             return render_template("message.html", message=message, goto="/")
         else:
             message="username unknown or wrong password"
@@ -108,10 +110,12 @@ def admin():
         invitation_codes = read_invitation_codes(cur)
         mysql.commit()
         cur.close()
+        message = chr(4) + " " + chr(5) + " " + chr(30) + " " + chr(31)
         return render_template('admin.html', 
                                 users=users, 
                                 planets=planets,
-                                invitation_codes=invitation_codes)
+                                invitation_codes=invitation_codes,
+                                message=message)
     else:
         return redirect(url_for('login_page'))
 

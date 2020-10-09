@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>Create Language</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+
+  
+
+
+        Input your name:  <input type="text">
+        <button id="LF">LF</button>
+
+        <div>
+          <br><br>
+        </div>
+
+        <div id="print_me">
+
+
+
+        </div>
+
+  </body> 
+  <script>
+   $(document).ready(function() {
+      $("#LF").on("click", function(){
+        $("#print_me").append("<br/>");
+      })
+
+      $( "input" ).on( "keydown", function(event) {
+        
+        var key = Math.abs(event.which - 48);
+
+        if (key == 40){
+          $('#print_me img').last().remove();
+        } else {
+          var url = key.toString() + ".jpg";
+
+          /* var url = 'https://avatarfiles.alphacoders.com/822/82242.png'; */
+
+
+          $(`<img src='${url}' width='50px' height='auto'>`).appendTo('#print_me');
+          
+        }
+      });
+    });
+
+  </script>
+</html> 
