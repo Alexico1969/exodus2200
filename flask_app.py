@@ -51,6 +51,7 @@ def login_page():
         if username == "alex" and password == "csgo":
             session['logged_in'] = True
             session['admin'] = True
+            cur.close()
             return redirect(url_for('home'))
         elif check_credentials(username, password, cur):
             message = "You are logged in as " + str(username)
@@ -59,6 +60,7 @@ def login_page():
             session['admin'] = False
             return render_template("message.html", message=message, goto="/")
         else:
+            cur.close()
             message="username unknown or wrong password"
 
 
@@ -90,7 +92,6 @@ def register():
         level = 0
 
         if pssw1 != pssw2:
-            
             message = "passwords don't match"
         elif inv_code not in valid_inv_codes:
             message = "wrong invitation code"
@@ -117,7 +118,9 @@ def admin():
         #add_test_data(cur)
         users = read_user_data(cur)
         print("4")
+        cur = mysql.cursor()
         planets = read_planet_data(cur)
+        cur = mysql.cursor()
         invitation_codes = read_invitation_codes(cur)
         mysql.commit()
         cur.close()

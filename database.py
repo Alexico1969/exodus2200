@@ -41,41 +41,50 @@ def create_tables(cur):
 
     """
     #cur.execute('''CREATE TABLE IF NOT EXISTS Invitation_codes(id INT, code VARCHAR(20), times_used INT)''')
-
+    cur.close()
     return
 
 def add_test_data(cur):
+    cur.execute('''SET GLOBAL MAX_EXECUTION_TIME=1000;''')
     cur.execute('''TRUNCATE TABLE Users''')
     cur.execute('''INSERT INTO Users (name, username, password, invitation_code, found, level ) VALUES ("Alex van Winkel", "alexicoo", "1234", "TEST-001", "00000000", 0)''')
     cur.execute('''INSERT INTO Users (name, username, password, invitation_code, found, level ) VALUES ("Peter de Wit", "peter", "1234", "TEST-001", "00000000", 0)''')
     #cur.execute('''INSERT INTO Invitation_codes (id, code, times_used) VALUES (0, "INIT001", 0)''')
     mysql.commit()
+    cur.close()
     return
 
 def add_planet_data(cur):
+    cur.execute('''SET GLOBAL MAX_EXECUTION_TIME=1000;''')
     s = cur.execute('''INSERT INTO Planets (planet_id, name, x_pos, y_pos, z_pos, url, message ) VALUES ( 0, "Tygross", -234, 877, 32, "Hx78Ah1u", "We have hacked your system")''')
     mysql.commit()
+    cur.close()
     return
 
 def add_user(cur, name, username, password, invitation_code, level):
+    cur.execute('''SET GLOBAL MAX_EXECUTION_TIME=1000;''')
     found = "00000000"
     s = cur.execute('''INSERT INTO Users (name, username, password, invitation_code, found, level ) VALUES (%s, %s, %s, %s, %s, %s)''', (name, username, password, invitation_code, found, level ))
     mysql.commit()
+    cur.close()
     return
 
 def read_user_data(cur):
     cur.execute('''SELECT * FROM Users''')
     records = cur.fetchall()
+    cur.close()
     return records
 
 def read_planet_data(cur):
     cur.execute('''SELECT * FROM Planets''')
     records = cur.fetchall()
+    cur.close()
     return records
 
 def read_invitation_codes(cur):
     cur.execute('''SELECT * FROM Invitation_codes''')
     records = cur.fetchall()
+    cur.close()
     return records
 
 def check_credentials(username, password, cur):
@@ -97,6 +106,7 @@ def check_credentials(username, password, cur):
     print("password", password)
     print("------------------------")
     print("verified : ", verify_password(pssw_hash, password))
+    cur.close()
     return verify_password(pssw_hash, password)
 
     
