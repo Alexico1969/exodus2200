@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+        <a-assets>
+            <img id="boxTexture" src="../static/images/Planet_05.png">
+            <img id="skyTexture"
+              src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
+            <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+          </a-assets>
+        
+          <a-entity camera="active: true" look-controls wasd-controls="acceleration:100" position="0 1.6 0">
+            <a-torus color="#43A367" position="0 1.2 -4" arc="360" radius="5" radius-tubular="0.3"></a-torus>
+          </a-entity>
+
+          <a-box src="#boxTexture" position="0 2 22"  scale="2 2 2"
+                 rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-box>
+        
+          <a-sky src="#skyTexture"></a-sky>
+        
+          <a-light type="ambient" color="#445451"></a-light>
+          <a-light type="point" intensity="40" position="2 4 4"></a-light>
+    </a-scene>
+  </body>
+</html>
