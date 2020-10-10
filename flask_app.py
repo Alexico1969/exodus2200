@@ -108,11 +108,15 @@ def register():
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
+    print("1")
     if session.get('admin'):
+        print("2")
         cur = mysql.cursor()
+        print("3")
         #create_tables(cur)
         #add_test_data(cur)
         users = read_user_data(cur)
+        print("4")
         planets = read_planet_data(cur)
         invitation_codes = read_invitation_codes(cur)
         mysql.commit()
