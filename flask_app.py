@@ -22,6 +22,7 @@ def home():
         print()
     if session.get('logged_in'):
         message = ""
+        user = session.get('user')
         if request.method == "POST":
 
             if request.form.get("L") == "logout":
@@ -32,7 +33,7 @@ def home():
             return render_template('index.html',  message=message)
         else:
             message = "All systems operational"
-            return render_template('index.html',  message=message)
+            return render_template('index.html',  message=message, user=user)
     else:
         return redirect(url_for('login_page'))
 
@@ -51,6 +52,7 @@ def login_page():
         if username == "alex" and password == "csgo":
             session['logged_in'] = True
             session['admin'] = True
+            session['user'] = username
             cur.close()
             return redirect(url_for('home'))
         elif check_credentials(username, password, cur):
@@ -58,6 +60,7 @@ def login_page():
             cur.close()
             session['logged_in'] = True
             session['admin'] = False
+            session['user'] = username
             return render_template("message.html", message=message, goto="/")
         else:
             cur.close()
@@ -109,7 +112,12 @@ def register():
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
-    print("1")
+    try:
+        cur.close()
+    except:
+        cur = mysql.cursor()
+        print("Couldn't close Cursor")
+        print("1")
     if session.get('admin'):
         print("2")
         cur = mysql.cursor()
@@ -132,4 +140,3 @@ def admin():
                                 message=message)
     else:
         return redirect(url_for('login_page'))
-
