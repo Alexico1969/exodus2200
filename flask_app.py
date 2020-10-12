@@ -7,6 +7,9 @@ from helper import hash_password, verify_password
 app = Flask(__name__)
 app.secret_key = 'super secret key2'
 
+if __name__ == '__main__':
+    app.run()
+
 mysql = MySQLdb.connect(host="Exodus2200.mysql.pythonanywhere-services.com", user="Exodus2200", passwd="Excalibur_01", db="Exodus2200$exodus2200")
 
 
@@ -14,15 +17,14 @@ mysql = MySQLdb.connect(host="Exodus2200.mysql.pythonanywhere-services.com", use
 @app.route('/', methods=['GET', 'POST'])
 def home():
     try:
-        cur = mysql.cursor()
-        
+        cur = mysql.cursor()    
     except:
-        cur.close()
-        cur = mysql.cursor()
-        print()
+        print("Error setting cur")
     if session.get('logged_in'):
         message = ""
         user = session.get('user')
+        users = cur.execute("SELECT * from Users;")
+        message = users
         if request.method == "POST":
 
             if request.form.get("L") == "logout":

@@ -2,9 +2,12 @@ from flask import Flask, render_template, redirect, request, url_for, session
 import MySQLdb
 from helper import verify_password
 
-app = Flask(__name__)
+#app = Flask(__name__)
+
 
 mysql = MySQLdb.connect(host="Exodus2200.mysql.pythonanywhere-services.com", user="Exodus2200", passwd="Excalibur_01", db="Exodus2200$exodus2200")
+
+cur = mysql.cursor()
 
 def create_tables(cur):
     
