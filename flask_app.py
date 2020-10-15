@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for, session
-import MySQLdb
+from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials
 from helper import hash_password, verify_password
@@ -7,23 +7,27 @@ from helper import hash_password, verify_password
 app = Flask(__name__)
 app.secret_key = 'super secret key2'
 
+app.config['MYSQL_USER'] = "Exodus2200"
+app.config['MYSQL_PASSWORD'] = "Excalibur_01"
+app.config['MYSQL_HOST'] = "Exodus2200.mysql.pythonanywhere-services.com"
+app.config['MYSQL_DB'] = "Exodus2200$exodus2200"
+
+
 if __name__ == '__main__':
     app.run()
-
-mysql = MySQLdb.connect(host="Exodus2200.mysql.pythonanywhere-services.com", user="Exodus2200", passwd="Excalibur_01", db="Exodus2200$exodus2200")
-
+    
+mysql = MySQL(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    try:
-        cur = mysql.cursor()    
-    except:
-        print("Error setting cur")
-    if session.get('logged_in'):
-        message = ""
+    if session.get('user'):
+        cur = mysql.connection.cursor()
         user = session.get('user')
-        users = cur.execute("SELECT * from Users;")
+        print(2)
+        cur.execute("SELECT * from Users;")
+        users = cur.fetchall()
+        print(3)
         message = users
         if request.method == "POST":
 
@@ -55,7 +59,6 @@ def login_page():
             session['logged_in'] = True
             session['admin'] = True
             session['user'] = username
-            cur.close()
             return redirect(url_for('home'))
         elif check_credentials(username, password, cur):
             message = "You are logged in as " + str(username)
@@ -114,26 +117,16 @@ def register():
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
-    try:
-        cur.close()
-    except:
-        cur = mysql.cursor()
-        print("Couldn't close Cursor")
-        print("1")
+
     if session.get('admin'):
-        print("2")
-        cur = mysql.cursor()
-        print("3")
+        print("A2")
+        cur = mysql.connection.cursor()
+        print("A3")
         #create_tables(cur)
         #add_test_data(cur)
         users = read_user_data(cur)
-        print("4")
-        cur = mysql.cursor()
         planets = read_planet_data(cur)
-        cur = mysql.cursor()
         invitation_codes = read_invitation_codes(cur)
-        mysql.commit()
-        cur.close()
         message = chr(4) + " " + chr(5) + " " + chr(30) + " " + chr(31)
         return render_template('admin.html', 
                                 users=users, 
