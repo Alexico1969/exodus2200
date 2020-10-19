@@ -44,7 +44,26 @@ def create_tables(cur):
 
     """
     #cur.execute('''CREATE TABLE IF NOT EXISTS Invitation_codes(id INT, code VARCHAR(20), times_used INT)''')
+
+    s = cur.execute('''CREATE TABLE IF NOT EXISTS Launches ( launch_id INT NOT NULL,
+                                                            user_id INT,
+                                                            x_desto INT,
+                                                            y_desto INT,
+                                                            z_desto INT,
+                                                            launch_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                                            active BOOLEAN,
+                                                            PRIMARY KEY (launch_id)
+                                                        );''')
     
+    s = cur.execute('''CREATE TABLE IF NOT EXISTS Reports ( report_id INT NOT NULL,
+                                                            user_id INT,
+                                                            x_desto INT,
+                                                            y_desto INT,
+                                                            z_desto INT,
+                                                            dist_from_nearest INT,
+                                                            PRIMARY KEY (report_id)
+                                                        );''')
+
     return
 
 def add_test_data(cur):

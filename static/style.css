@@ -91,7 +91,7 @@ input{
 .tile{
     display: block;
     background-color: #24527A;
-    padding-top: 20px;
+    padding-top: 10px;
     border-radius: 20px;
     width: 150px;
     height: 120px;
@@ -112,7 +112,7 @@ input{
     background-position: center;
     border-radius: 38px;
     width: 619px;
-    height: 419px;
+    height: 519px;
     margin-top: 60px;
     padding-top: 40px;
     margin-left: auto;
@@ -128,7 +128,7 @@ input{
     background-position: center;
     border-radius: 38px;
     width: 619px;
-    height: 419px;
+    height: 519px;
     margin-top: 60px;
     margin-left: -400px;
     padding-top: 40px;
@@ -160,6 +160,12 @@ input{
 
 }
 
+.footer.hr{
+    text-align: left;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
 .footer-left{
     text-align: left;
     position: fixed;
@@ -201,6 +207,17 @@ input{
 .bigger-btn:hover{
     border: rgb(36,82,122) 2px solid;
     background-color: rgb(36,82,122, 0.6);
+}
+
+.launch-btn{
+    color: white;
+    font-size: 130%;
+    background-color: #5199af;
+    padding-top: 0px;
+    border-radius: 20px;
+    width: 130px;
+    height: 110px;
+    margin-top: 0px;
 }
 
 

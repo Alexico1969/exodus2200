@@ -24,18 +24,15 @@ def home():
     if session.get('user'):
         cur = mysql.connection.cursor()
         user = session.get('user')
-        print(2)
         cur.execute("SELECT * from Users;")
         users = cur.fetchall()
-        print(3)
         message = users
         if request.method == "POST":
-
             if request.form.get("L") == "logout":
                 session.clear()
                 return redirect(url_for('login_page'))
-
-
+            elif request.form.get("launch") == "launch":
+                return redirect(url_for('launch'))
             return render_template('index.html',  message=message)
         else:
             message = "All systems operational"
@@ -47,7 +44,7 @@ def home():
 def login_page():
     message = ""
     if request.method == 'POST':
-        cur = mysql.cursor()
+        cur = mysql.connection.cursor()
         if request.form.get("R") == "register":
             return redirect(url_for('register'))
         else:
@@ -80,7 +77,7 @@ def register():
     message = ""
     if request.method == 'POST':
         
-        cur = mysql.cursor()
+        cur = mysql.connection.cursor()
         valid_inv_codes = []
         stored_usernames = []
         data1 = read_invitation_codes(cur)
@@ -119,9 +116,7 @@ def register():
 def admin():
 
     if session.get('admin'):
-        print("A2")
         cur = mysql.connection.cursor()
-        print("A3")
         #create_tables(cur)
         #add_test_data(cur)
         users = read_user_data(cur)
@@ -133,5 +128,22 @@ def admin():
                                 planets=planets,
                                 invitation_codes=invitation_codes,
                                 message=message)
+    else:
+        return redirect(url_for('login_page'))
+
+@app.route("/launch", methods=['GET', 'POST'])        
+def launch():
+
+    if session.get('user'):
+        message="test"
+        user = session.get('user')
+        if request.method == "POST":
+            if request.form.get("L") == "logout":
+                session.clear()
+                return redirect(url_for('login_page'))
+            return render_template('launch.html', user=user, message=message)
+        
+        
+        return render_template('launch.html', user=user, message=message)
     else:
         return redirect(url_for('login_page'))

@@ -28,22 +28,19 @@
         </div>
 
         <div class="center-total">
-          <div class="tiles">
-            <form action="" method="post" id="launch_buttons">
-              <div class="tile" id="launch_button">
-                <button class="launch-btn" type="submit" name="launch" value="launch">Launch</br>Probe</button>
-              </div>
-              <div class="tile">
-                <button class="launch-btn" type="submit" name="read" value="read">Read</br>Data</button>
-              </div>
-              <div class="tile">
-                <button class="launch-btn" type="submit" name="report" value="report">Read</br>Reports</button>
-              </div>
-            </form>
-          </div>
+
 
           <div class="main-center-index">
-              <div class="mc-title"><h6>Title</h6></div>
+              <div class="mc-title"><h6>Set destination</h6></div>
+
+              <form method="POST">
+                <input type="text" name="x_desto" placeholder="x desto">
+                <input type="text" name="y_desto" placeholder="y desto">
+                <input type="text" name="y_desto" placeholder="z desto">
+                <div class="submit">
+                    <input type="submit" value="launch">                    
+                </div>
+              </form>
               <div class="message">
                 {{message}}
               </div>
