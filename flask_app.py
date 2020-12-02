@@ -135,12 +135,17 @@ def admin():
 def launch():
 
     if session.get('user'):
-        message="test"
+        message="Right : '000', '121'  ; Wrong : '0', '11', '1234'"
         user = session.get('user')
         if request.method == "POST":
             if request.form.get("L") == "logout":
                 session.clear()
                 return redirect(url_for('login_page'))
+            elif request.form.get("x_desto") and request.form.get("y_desto") and request.form.get("z_desto"):
+                message = "Destination set !"
+            else:
+                message = "Missing coordinates"
+                
             return render_template('launch.html', user=user, message=message)
         
         
