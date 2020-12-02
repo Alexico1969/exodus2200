@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
-from database import read_invitation_codes, check_credentials
+from database import read_invitation_codes, check_credentials, launch_probe
 from helper import hash_password, verify_password
 
 app = Flask(__name__)
@@ -142,7 +142,13 @@ def launch():
                 session.clear()
                 return redirect(url_for('login_page'))
             elif request.form.get("x_desto") and request.form.get("y_desto") and request.form.get("z_desto"):
-                message = "Destination set !"
+                cur = mysql.connection.cursor()
+                x = request.form.get("x_desto")
+                y = request.form.get("y_desto")
+                z = request.form.get("z_desto")
+                launch_probe(x,y,z,cur)
+                message = "Destination set ! (" + x + "," + y + "," + z + ")"
+                return render_template("message.html", message=message, goto="/")
             else:
                 message = "Missing coordinates"
                 
@@ -152,3 +158,8 @@ def launch():
         return render_template('launch.html', user=user, message=message)
     else:
         return redirect(url_for('login_page'))
+
+
+
+
+

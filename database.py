@@ -12,7 +12,9 @@ from helper import verify_password
 def create_tables(cur):
     
     #s = cur.execute('''CREATE TABLE IF NOT EXISTS TEST (id INT, name VARCHAR(20))''')
-    s = cur.execute('''DROP TABLE Users''')
+    #s = cur.execute('''DROP TABLE Users''')
+    #s = cur.execute('''DROP TABLE Launches''')
+    #s = cur.execute('''DROP TABLE Reports''')
     print("----------------------------------------------------")
     
     s = cur.execute('''CREATE TABLE IF NOT EXISTS Users (   user_id INT NOT NULL AUTO_INCREMENT, 
@@ -45,7 +47,7 @@ def create_tables(cur):
     """
     #cur.execute('''CREATE TABLE IF NOT EXISTS Invitation_codes(id INT, code VARCHAR(20), times_used INT)''')
 
-    s = cur.execute('''CREATE TABLE IF NOT EXISTS Launches ( launch_id INT NOT NULL,
+    s = cur.execute('''CREATE TABLE IF NOT EXISTS Launches ( launch_id INT NOT NULL AUTO_INCREMENT,
                                                             user_id INT,
                                                             x_desto INT,
                                                             y_desto INT,
@@ -55,7 +57,7 @@ def create_tables(cur):
                                                             PRIMARY KEY (launch_id)
                                                         );''')
     
-    s = cur.execute('''CREATE TABLE IF NOT EXISTS Reports ( report_id INT NOT NULL,
+    s = cur.execute('''CREATE TABLE IF NOT EXISTS Reports ( report_id INT NOT NULL AUTO_INCREMENT,
                                                             user_id INT,
                                                             x_desto INT,
                                                             y_desto INT,
@@ -67,27 +69,24 @@ def create_tables(cur):
     return
 
 def add_test_data(cur):
-    cur.execute('''SET GLOBAL MAX_EXECUTION_TIME=1000;''')
     cur.execute('''TRUNCATE TABLE Users''')
     cur.execute('''INSERT INTO Users (name, username, password, invitation_code, found, level ) VALUES ("Alex van Winkel", "alexicoo", "1234", "TEST-001", "00000000", 0)''')
     cur.execute('''INSERT INTO Users (name, username, password, invitation_code, found, level ) VALUES ("Peter de Wit", "peter", "1234", "TEST-001", "00000000", 0)''')
     #cur.execute('''INSERT INTO Invitation_codes (id, code, times_used) VALUES (0, "INIT001", 0)''')
-    mysql.connection.commit()
+    cur.connection.commit()
 
     return
 
 def add_planet_data(cur):
-    cur.execute('''SET GLOBAL MAX_EXECUTION_TIME=1000;''')
     s = cur.execute('''INSERT INTO Planets (planet_id, name, x_pos, y_pos, z_pos, url, message ) VALUES ( 0, "Tygross", -234, 877, 32, "Hx78Ah1u", "We have hacked your system")''')
-    mysql.connection.commit()
+    cur.connection.commit()
 
     return
 
 def add_user(cur, name, username, password, invitation_code, level):
-    cur.execute('''SET GLOBAL MAX_EXECUTION_TIME=1000;''')
     found = "00000000"
     s = cur.execute('''INSERT INTO Users (name, username, password, invitation_code, found, level ) VALUES (%s, %s, %s, %s, %s, %s)''', (name, username, password, invitation_code, found, level ))
-    mysql.connection.commit()
+    cur.connection.commit()
 
     return
 
@@ -128,4 +127,16 @@ def check_credentials(username, password, cur):
     
     return verify_password(pssw_hash, password)
 
-    
+def launch_probe(x,y,z,cur):
+    x_int = int(x)
+    y_int = int(y)
+    z_int = int(z)
+    user = session.get('user')
+    active = True    
+
+    s = cur.execute('''INSERT INTO Launches (user_id, x_desto, y_desto, z_desto, active) VALUES ( %s, %s, %s, %s, %s)''',(user, x, y, z, True))
+    cur.connection.commit()
+
+    return
+
+
