@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
-from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state
+from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
 from helper import hash_password, verify_password
 
 app = Flask(__name__)
@@ -21,13 +21,10 @@ mysql = MySQL(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    css="display:none;"
     if session.get('user'):
         cur = mysql.connection.cursor()
         user = session.get('user')
-        state = session.get('state')
-        if state == "launched":
-            css="visible:false;"
+        state = session.get('state') #options : clear, launched, ... , ... 
         cur.execute("SELECT * from Users;")
         users = cur.fetchall()
         message = users
@@ -40,7 +37,7 @@ def home():
             return render_template('index.html',  message=message)
         else:
             message = "All systems operational"
-            return render_template('index.html',  message=message, user=user, css=css)
+            return render_template('index.html',  message=message, user=user, state=state + "()")
     else:
         return redirect(url_for('login_page'))
 
@@ -155,6 +152,7 @@ def launch():
                 z = request.form.get("z_desto")
                 launch_probe(x,y,z,cur)
                 message = "Destination set !       (" + x + "," + y + "," + z + ")"
+                change_state(cur, user, "launched")
                 return render_template("message.html", message=message, goto="/")
             else:
                 message = "Missing coordinates"

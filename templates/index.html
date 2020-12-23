@@ -7,7 +7,7 @@
     <link rel=stylesheet type=text/css href="../static/style.css">
 
   </head>
-  <body>
+  <body onload="{{state | safe}}">
     <div class="container">
         <div class="top">
             <div class="top-bar">
@@ -31,9 +31,9 @@
           <div class="tiles">
             <form action="" method="post" id="launch_buttons">
               <div class="tile" id="launch_button">
-              <button style="{{css}}" class="launch-btn" type="submit" name="launch" value="launch">Launch</br>Probe</button>
+              <button class="launch-btn" type="submit" name="launch" value="launch">Launch</br>Probe</button>
               </div>
-              <div class="tile">
+              <div class="tile" id="data_button">
                 <button class="launch-btn" type="submit" name="read" value="read">Read</br>Data</button>
               </div>
               <div class="tile">
@@ -67,6 +67,21 @@
     </div>
 
   </body>
+  <script>
 
+
+
+    function clear(){
+      console.log("*** FUNCTION CLEAR ***");
+      $('#data_button').css('background-color','grey');
+      $('#data_button').html("");
+    }
+
+    function launched(){
+      console.log("*** FUNCTION LAUNCHED ***");
+      $('#launch_button').css('background-color','grey');
+      $('#launch_button').html("");
+    }
+  </script>
 
 </html>

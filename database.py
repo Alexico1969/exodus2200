@@ -142,3 +142,7 @@ def get_state(cur, usr):
     records = cur.fetchall()
     print("State: ", records[0][8])
     return records[0][8]
+
+def change_state(cur, user, new_state):
+    cur.execute('''UPDATE Users SET state=%s WHERE username=%s''', (new_state, user))
+    return
