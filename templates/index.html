@@ -2,7 +2,7 @@
   <head>
     <title>USS - Main</title>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <!--link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel=stylesheet type=text/css href="../static/style.css">
 
@@ -31,7 +31,7 @@
           <div class="tiles">
             <form action="" method="post" id="launch_buttons">
               <div class="tile" id="launch_button">
-                <button class="launch-btn" type="submit" name="launch" value="launch">Launch</br>Probe</button>
+              <button style="{{css}}" class="launch-btn" type="submit" name="launch" value="launch">Launch</br>Probe</button>
               </div>
               <div class="tile">
                 <button class="launch-btn" type="submit" name="read" value="read">Read</br>Data</button>

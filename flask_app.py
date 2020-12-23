@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
-from database import read_invitation_codes, check_credentials, launch_probe
+from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state
 from helper import hash_password, verify_password
 
 app = Flask(__name__)
@@ -21,9 +21,13 @@ mysql = MySQL(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    css="display:none;"
     if session.get('user'):
         cur = mysql.connection.cursor()
         user = session.get('user')
+        state = session.get('state')
+        if state == "launched":
+            css="visible:false;"
         cur.execute("SELECT * from Users;")
         users = cur.fetchall()
         message = users
@@ -36,7 +40,7 @@ def home():
             return render_template('index.html',  message=message)
         else:
             message = "All systems operational"
-            return render_template('index.html',  message=message, user=user)
+            return render_template('index.html',  message=message, user=user, css=css)
     else:
         return redirect(url_for('login_page'))
 
@@ -59,10 +63,13 @@ def login_page():
             return redirect(url_for('home'))
         elif check_credentials(username, password, cur):
             message = "You are logged in as " + str(username)
-            cur.close()
             session['logged_in'] = True
             session['admin'] = False
             session['user'] = username
+            print("## CHECKPOINT CHARLIE ##")
+            session['level'] = get_level(cur, username)
+            session['state'] = get_state(cur, username)
+            cur.close()
             return render_template("message.html", message=message, goto="/")
         else:
             cur.close()
@@ -147,7 +154,7 @@ def launch():
                 y = request.form.get("y_desto")
                 z = request.form.get("z_desto")
                 launch_probe(x,y,z,cur)
-                message = "Destination set ! (" + x + "," + y + "," + z + ")"
+                message = "Destination set !       (" + x + "," + y + "," + z + ")"
                 return render_template("message.html", message=message, goto="/")
             else:
                 message = "Missing coordinates"

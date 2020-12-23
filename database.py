@@ -116,14 +116,6 @@ def check_credentials(username, password, cur):
             print("*** MATCH FOUND! ***")
             match = True
             hash = pssw_hash
-    print("username: ", username)
-    print("password: ", username)
-    print("------------------------")
-    print("usr_name: ", usr_name)
-    print("pssw_hash", pssw_hash)
-    print("password", password)
-    print("------------------------")
-    print("verified : ", verify_password(pssw_hash, password))
     
     return verify_password(pssw_hash, password)
 
@@ -139,4 +131,14 @@ def launch_probe(x,y,z,cur):
 
     return
 
+def get_level(cur, usr):
+    cur.execute('''SELECT * FROM Users where username=%s''', (usr,))
+    records = cur.fetchall()
+    print("level: ", records[0][6])
+    return records[0][6]
 
+def get_state(cur, usr):
+    cur.execute('''SELECT * FROM Users where username=%s''', (usr,))
+    records = cur.fetchall()
+    print("State: ", records[0][8])
+    return records[0][8]
