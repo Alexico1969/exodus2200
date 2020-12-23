@@ -144,5 +144,9 @@ def get_state(cur, usr):
     return records[0][8]
 
 def change_state(cur, user, new_state):
+    print("*** function change_state ***")
+    print("user: ", user)
+    print("new_state: ", new_state)
     cur.execute('''UPDATE Users SET state=%s WHERE username=%s''', (new_state, user))
+    cur.connection.commit()
     return

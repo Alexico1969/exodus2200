@@ -25,6 +25,10 @@ def home():
         cur = mysql.connection.cursor()
         user = session.get('user')
         state = session.get('state') #options : clear, launched, ... , ... 
+        if state:
+            print("state is : ", state)
+        else:
+            state = 'error'
         cur.execute("SELECT * from Users;")
         users = cur.fetchall()
         message = users
