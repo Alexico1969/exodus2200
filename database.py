@@ -123,7 +123,7 @@ def launch_probe(x,y,z,cur):
     x_int = int(x)
     y_int = int(y)
     z_int = int(z)
-    user = session.get('user')
+    user = user_id(cur,session.get('user'))
     active = True    
 
     s = cur.execute('''INSERT INTO Launches (user_id, x_desto, y_desto, z_desto, active) VALUES ( %s, %s, %s, %s, %s)''',(user, x, y, z, True))
@@ -149,4 +149,23 @@ def change_state(cur, user, new_state):
     print("new_state: ", new_state)
     cur.execute('''UPDATE Users SET state=%s WHERE username=%s''', (new_state, user))
     cur.connection.commit()
+    session['state'] = new_state
     return
+
+def get_time(cur):
+    print("*** function get_time ***")
+    user = user_id(cur, session.get('user'))
+    cur.execute('''SELECT * FROM Launches where user_id=%s ORDER BY launch_id DESC LIMIT 1''', (user,))
+    records = cur.fetchall()
+    if records:
+        print("last launch: ", records[0][5])
+        return records[0][5]
+    else:
+        print("no lauches for this user in DB")
+        return 0
+
+def user_id(cur, name):
+    cur.execute('''SELECT * FROM Users where username=%s''', (name,))
+    records = cur.fetchall()
+    print("User_Id: ", records[0][0])
+    return records[0][0]

@@ -1,4 +1,4 @@
-import hashlib, binascii, os
+import hashlib, binascii, os, datetime
  
 def hash_password(password):
     """Hash a password for storing."""
@@ -18,4 +18,11 @@ def verify_password(stored_password, provided_password):
                                   100000)
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == stored_password
+
+def time_left(launch_time):
+    now = datetime.datetime.now()
+    diff = now - launch_time
+    minutes = int((diff.total_seconds())/60)
+    print("minutes = " , minutes)
+    return 10 - minutes
 

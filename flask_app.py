@@ -2,7 +2,9 @@ from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
-from helper import hash_password, verify_password
+from database import get_time
+from helper import hash_password, verify_password, time_left
+import datetime
 
 app = Flask(__name__)
 app.secret_key = 'super secret key2'
@@ -25,8 +27,13 @@ def home():
         cur = mysql.connection.cursor()
         user = session.get('user')
         state = session.get('state') #options : clear, launched, ... , ... 
+        time = 0
         if state:
-            print("state is : ", state)
+            if state == 'launched':
+                time = time_left(get_time(cur))
+                if time <= 0:
+                    print("landed")
+                    change_state(cur, user, "landed")
         else:
             state = 'error'
         cur.execute("SELECT * from Users;")
@@ -41,7 +48,8 @@ def home():
             return render_template('index.html',  message=message)
         else:
             message = "All systems operational"
-            return render_template('index.html',  message=message, user=user, state=state + "()")
+            message = "Time var = " + str(time)
+            return render_template('index.html',  message=message, user=user, state=state + "()", time=time)
     else:
         return redirect(url_for('login_page'))
 
