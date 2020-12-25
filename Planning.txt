@@ -1,10 +1,9 @@
 TODO
 
-    AFTER FIRING A PROBE:
+    AFTER LANDING A PROBE:
 
-    * Pass launchtime to index.html
-    * Create a timer (in JS) to show when data can be retrieved
-    * Reload page then timer <= 0
+    * When the timer <= 0 calculate the closest planet
+    * Create a report
 
 
 BUSY

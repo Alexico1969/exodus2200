@@ -2,9 +2,9 @@ from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
-from database import get_time
-from helper import hash_password, verify_password, time_left
+from database import get_time,  closest_planet, create_report
 import datetime
+from helper import hash_password, verify_password, time_left
 
 app = Flask(__name__)
 app.secret_key = 'super secret key2'
@@ -36,15 +36,20 @@ def home():
                     change_state(cur, user, "landed")
         else:
             state = 'error'
-        cur.execute("SELECT * from Users;")
-        users = cur.fetchall()
-        message = users
+
+        message = "All systems are go"
+
         if request.method == "POST":
             if request.form.get("L") == "logout":
                 session.clear()
                 return redirect(url_for('login_page'))
-            elif request.form.get("launch") == "launch":
+            elif request.form.get("action") == "launch":
                 return redirect(url_for('launch'))
+            elif request.form.get("action") == "read":
+                message = closest_planet(cur, user)
+                create_report(cur, user)
+                change_state(cur, user, "clear")
+                return render_template("message.html", message=message, goto="/") 
             return render_template('index.html',  message=message)
         else:
             message = "All systems operational"
@@ -151,7 +156,7 @@ def admin():
 def launch():
 
     if session.get('user'):
-        message="Right : '000', '121'  ; Wrong : '0', '11', '1234'"
+        message="Right : '023', '-821'  ; Wrong : '0', '-11', '1234'"
         user = session.get('user')
         if request.method == "POST":
             if request.form.get("L") == "logout":

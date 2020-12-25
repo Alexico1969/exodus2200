@@ -120,15 +120,9 @@ def check_credentials(username, password, cur):
     return verify_password(pssw_hash, password)
 
 def launch_probe(x,y,z,cur):
-    x_int = int(x)
-    y_int = int(y)
-    z_int = int(z)
     user = user_id(cur,session.get('user'))
-    active = True    
-
-    s = cur.execute('''INSERT INTO Launches (user_id, x_desto, y_desto, z_desto, active) VALUES ( %s, %s, %s, %s, %s)''',(user, x, y, z, True))
+    cur.execute('''INSERT INTO Launches (user_id, x_desto, y_desto, z_desto, active) VALUES ( %s, %s, %s, %s, %s)''',(user, x, y, z, True))
     cur.connection.commit()
-
     return
 
 def get_level(cur, usr):
@@ -169,3 +163,61 @@ def user_id(cur, name):
     records = cur.fetchall()
     print("User_Id: ", records[0][0])
     return records[0][0]
+
+def closest_planet(cur, user):
+    usr_id = user_id(cur, user)
+    coord_list = get_xyz(cur, usr_id)
+    if coord_list == []:
+        return 999999
+    else:
+        x = coord_list[0]
+        y = coord_list[1]
+        z = coord_list[2]
+        print(" xyz = ", x, y, z)
+
+        planets = []
+        planets = get_planet_coords(cur)
+        closest = 888888
+        for planet in planets:
+            xp = planet[0]
+            yp = planet[1]
+            zp = planet[2]
+
+            distance =  ((x-xp)**2 + (y-yp)**2 + (z-zp)**2)**(0.5)
+            if distance < closest:
+                closest = distance
+
+        if closest == 0:
+            return "You have found a planet !"
+        else:
+            return " closest distance to a planet = " + str(closest)
+
+def create_report(cur, user):
+
+    return
+
+def get_xyz(cur, user):
+    coord_list = []
+    cur.execute('''SELECT * FROM Launches where user_id=%s ORDER BY launch_id DESC LIMIT 1''', (user,))
+    records = cur.fetchall()
+    #print("&&& records[0][2] : ", records[0][2])
+    if records:
+        coord_list.append(records[0][2])  # x
+        coord_list.append(records[0][3])  # y
+        coord_list.append(records[0][4])  # z
+        print("launch coords: ", coord_list)
+    else:
+        print("no launches for this user in DB")
+    
+    return coord_list
+
+def get_planet_coords(cur):
+    planets = []
+    cur.execute('''SELECT * FROM Planets ''')
+    records = cur.fetchall()
+    for record in records:
+        x = record[2]
+        y = record[3]
+        z = record[4]
+        planets.append([x,y,z])
+    return planets

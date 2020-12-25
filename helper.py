@@ -24,5 +24,4 @@ def time_left(launch_time):
     diff = now - launch_time
     minutes = int((diff.total_seconds())/60)
     print("minutes = " , minutes)
-    return 10 - minutes
-
+    return 2 - minutes
