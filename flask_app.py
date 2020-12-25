@@ -49,7 +49,13 @@ def home():
                 message = closest_planet(cur, user)
                 create_report(cur, user)
                 change_state(cur, user, "clear")
-                return render_template("message.html", message=message, goto="/") 
+                return render_template("message.html", message=message, goto="/")
+            elif request.form.get("action") == "reports":
+                print("Going to route REPORTS")
+                return redirect(url_for('report'))
+            else:
+                output = request.form.get("action")
+                print(output)
             return render_template('index.html',  message=message)
         else:
             message = "All systems operational"
@@ -155,7 +161,7 @@ def admin():
 @app.route("/launch", methods=['GET', 'POST'])        
 def launch():
 
-    if session.get('user'):
+    if session.get('user') and session.get('state') == 'clear':
         message="Right : '023', '-821'  ; Wrong : '0', '-11', '1234'"
         user = session.get('user')
         if request.method == "POST":
@@ -168,7 +174,7 @@ def launch():
                 y = request.form.get("y_desto")
                 z = request.form.get("z_desto")
                 launch_probe(x,y,z,cur)
-                message = "Destination set !       (" + x + "," + y + "," + z + ")"
+                message = "Destination set !    <br>   (" + x + "," + y + "," + z + ")"
                 change_state(cur, user, "launched")
                 return render_template("message.html", message=message, goto="/")
             else:
@@ -182,6 +188,13 @@ def launch():
         return redirect(url_for('login_page'))
 
 
-
-
+@app.route("/report", methods=['GET', 'POST'])        
+def report():
+    if session.get('user'):
+        print("route Report ---- activated")
+        user = session.get('user')
+        message = "message"
+        return render_template('reports.html', user=user, message=message)
+    else:
+        return redirect(url_for('login_page'))
 

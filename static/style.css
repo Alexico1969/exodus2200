@@ -140,6 +140,10 @@ input{
     margin-bottom: 20px;
 }
 
+.desto_input{
+    width : 150px;
+}
+
 .submit{
     margin-top: 50px;
     text-align: center;

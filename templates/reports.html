@@ -1,13 +1,13 @@
 <html>
   <head>
-    <title>USS - Main</title>
+    <title>USS - Reports</title>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <!--link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel=stylesheet type=text/css href="../static/style.css">
 
   </head>
-  <body>
+  <body onload="{{state | safe}}">
     <div class="container">
         <div class="top">
             <div class="top-bar">
@@ -28,19 +28,22 @@
         </div>
 
         <div class="center-total">
-
+          <div class="tiles">
+            <form action="" method="post" id="launch_buttons">
+              <div class="tile" id="launch_button">
+              <button class="launch-btn" type="submit" name="action" value="launch">Launch</br>Probe</button>
+              </div>
+              <div class="tile" id="data_button">
+                <button class="launch-btn" type="submit" name="action" value="read">Read</br>Data</button>
+              </div>
+              <div class="tile">
+                <button class="launch-btn" type="submit" name="action" value="report">Read</br>Reports</button>
+              </div>
+            </form>
+          </div>
 
           <div class="main-center-index">
-              <div class="mc-title"><h6>Set destination</h6></div>
-
-              <form method="POST">
-                <input type="text" class="desto_input" name="x_desto" placeholder="x desto" pattern="-?[0-9]{3}" required>
-                <input type="text" class="desto_input" name="y_desto" placeholder="y desto" pattern="-?[0-9]{3}" required>
-                <input type="text" class="desto_input" name="z_desto" placeholder="z desto" pattern="-?[0-9]{3}" required>
-                <div class="submit">
-                    <input type="submit" value="launch">                    
-                </div>
-              </form>
+              <div class="mc-title"><h6>Reports</h6></div>
               <div class="message">
                 {{message}}
               </div>
@@ -50,7 +53,7 @@
         <div class="footer">
             <hr>
             <div class="footer-left">
-                Status : Logged in
+                Status : {{state}}
             </div>
             <div class="footer">
               <div class="footer-center">
@@ -64,6 +67,9 @@
     </div>
 
   </body>
+  <script>
 
+   
+  </script>
 
 </html>
