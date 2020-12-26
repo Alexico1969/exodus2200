@@ -174,7 +174,7 @@ def launch():
                 y = request.form.get("y_desto")
                 z = request.form.get("z_desto")
                 launch_probe(x,y,z,cur)
-                message = "Destination set !    <br>   (" + x + "," + y + "," + z + ")"
+                message = "Destination set !           (" + x + "," + y + "," + z + ")"
                 change_state(cur, user, "launched")
                 return render_template("message.html", message=message, goto="/")
             else:
@@ -192,9 +192,16 @@ def launch():
 def report():
     if session.get('user'):
         print("route Report ---- activated")
-        user = session.get('user')
         message = "message"
-        return render_template('reports.html', user=user, message=message)
+        #cur = mysql.connection.cursor()
+        user = session.get('user')
+        #state = session.get('state') #options : clear, launched, ... , ... 
+
+        if request.method == "POST":
+            if request.form.get("action") == "back":
+                return redirect(url_for('home'))
+
+        return render_template('reports.html', message=message, user=user, state="clear()", time=0)
     else:
         return redirect(url_for('login_page'))
 

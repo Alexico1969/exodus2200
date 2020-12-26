@@ -1,9 +1,8 @@
 TODO
 
-    AFTER LANDING A PROBE:
 
-    * When the timer <= 0 calculate the closest planet
-    * Create a report
+    * Create Reports on reports.html
+    * Make Planets appear on the right side of the screen when found
 
 
 BUSY

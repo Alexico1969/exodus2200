@@ -31,12 +31,12 @@
           <div class="tiles">
             <form action="" method="post" id="launch_buttons">
               <div class="tile" id="launch_button">
-              <button class="launch-btn" type="submit" name="action" value="launch">Launch</br>Probe</button>
+              <button class="launch-btn" type="submit" name="action" value="back">Main</br>Screen</button>
               </div>
               <div class="tile" id="data_button">
                 <button class="launch-btn" type="submit" name="action" value="read">Read</br>Data</button>
               </div>
-              <div class="tile">
+              <div class="tile" id="reports_button">
                 <button class="launch-btn" type="submit" name="action" value="report">Read</br>Reports</button>
               </div>
             </form>
@@ -68,6 +68,47 @@
 
   </body>
   <script>
+
+function error(){
+      console.log("*** STATE ERROR ***");
+    }
+
+    function clear(){
+      console.log("*** FUNCTION CLEAR ***");
+      $('#data_button').css('background-color','grey');
+      $('#data_button').html("");
+      $('#reports_button').css('background-color','grey');
+      $('#reports_button').html("");
+    }
+
+    function launched(){
+      console.log("*** FUNCTION LAUNCHED ***");
+      $('#launch_button').css('background-color','grey');
+      $('#launch_button').html("");
+      output = "<p>Probe</p>" + "<p>launched</p>"
+      $('#launch_button').html(output);
+      $('#launch_button').css('color','white');
+      $('#data_button').css('background-color','grey');
+      var time = parseFloat("{{time}}");
+      setInterval(function(){
+        time = time - 0.0166;
+        output = time.toFixed(2) + "<p>minutes</p>" + "<p>from landing</p>"
+        $('#data_button').html(output);
+        $('#data_button').css('color','white');
+        if (time <= 0){
+          location.reload();
+        }
+        
+      }, 1000);
+
+    }
+
+    function landed(){
+      console.log("*** FUNCTION LANDED ***");
+      $('#launch_button').css('background-color','grey');
+      $('#launch_button').html("");
+    }
+
 
    
   </script>

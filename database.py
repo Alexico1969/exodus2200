@@ -199,7 +199,7 @@ def closest_planet(cur, user):
         if closest == 0:
             return "You have found a planet !"
         else:
-            return " closest distance to a planet = " + str(closest)
+            return "Shortest distance to a planet = " + str(closest) + " KM"
 
 def create_report(cur, user):
 
