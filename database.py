@@ -203,7 +203,8 @@ def closest_planet(cur, user):
             if distance < closest:
                 closest = distance
                 if closest == 0:
-                    found_planet = counter
+                    planet_nr = counter
+                    add_planet_found(cur, user, planet_nr)
                 else:
                     print("xp = ",xp)
                     print("yp = ",yp)
@@ -222,7 +223,7 @@ def closest_planet(cur, user):
 
 
         if closest == 0:
-            name_found_planet = name_planet(cur, found_planet)
+            name_found_planet = name_planet(cur, planet_nr)
             output = "You have found planet " + name_found_planet +  " !"
             return output
         else:
@@ -283,5 +284,40 @@ def get_user_planets(cur, user):
     
     id = user_id(cur, user)
     output = ""
-    output = Markup("<p>Tygross</p><p>Mycos</p>")
+    planets = []
+    cur.execute('''SELECT * FROM Planets ''')
+    records = cur.fetchall()
+    for record in records:
+        planets.append(record)
+    f_string = found_string(cur, id)
+
+    for index in range(8):
+        pf = f_string[index]
+        if pf == '1':
+            output += '<p><a href="../static/' + planets[index][5] + '.html" target="_blank">' + planets[index][1] + '</a></p>'    
+
+    
+    output = Markup(output)   
+    #output = Markup("<p>Tygross</p><p>Mycos</p>")
     return output
+
+def add_planet_found(cur, user, planet_nr):
+
+    id = user_id(cur, user)
+    current_found = found_string(cur, id)
+    new_found = ""
+    for index in range(8):
+        if index == planet_nr:
+            new_found += "1"
+        else:
+            new_found += current_found[index]
+    cur.execute('''UPDATE Users SET found=%s WHERE user_id=%s''', (new_found, id))
+    cur.connection.commit()
+    return
+
+def found_string(cur, id):
+    cur.execute('''SELECT * FROM Users WHERE user_id=%s''', (id,))
+    records = cur.fetchall()
+    f_string = records[0][7]
+    return f_string
+
