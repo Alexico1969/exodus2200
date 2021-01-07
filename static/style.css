@@ -119,6 +119,21 @@ input{
     margin-right: auto;
 }
 
+.report{
+    font-family:'Courier New', Courier, monospace;
+    line-height: 60%;
+    overflow:auto;
+    background: #5d809c;
+    color: white;
+    padding: 15px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 85%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
 .main-center-index{
     display: inline;
     position: absolute;

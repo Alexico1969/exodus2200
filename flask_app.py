@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
-from database import get_time,  closest_planet, create_report
+from database import get_time,  closest_planet, create_report, report_list
 import datetime
 from helper import hash_password, verify_password, time_left
 
@@ -191,17 +191,19 @@ def launch():
 @app.route("/report", methods=['GET', 'POST'])        
 def report():
     if session.get('user'):
+        
         print("route Report ---- activated")
         message = "message"
-        #cur = mysql.connection.cursor()
+        cur = mysql.connection.cursor()
         user = session.get('user')
         #state = session.get('state') #options : clear, launched, ... , ... 
+        launches = report_list(cur, user)
 
         if request.method == "POST":
             if request.form.get("action") == "back":
                 return redirect(url_for('home'))
 
-        return render_template('reports.html', message=message, user=user, state="clear()", time=0)
+        return render_template('reports.html', message=message, user=user, state="clear()", time=0, launches=launches)
     else:
         return redirect(url_for('login_page'))
 

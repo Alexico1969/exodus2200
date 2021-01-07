@@ -85,9 +85,16 @@ def add_planet_data(cur):
 
 def add_user(cur, name, username, password, invitation_code, level):
     found = "00000000"
-    s = cur.execute('''INSERT INTO Users (name, username, password, invitation_code, found, level ) VALUES (%s, %s, %s, %s, %s, %s)''', (name, username, password, invitation_code, found, level ))
+    cur.execute('''INSERT INTO Users (name, username, password, invitation_code, found, level ) VALUES (%s, %s, %s, %s, %s, %s)''', (name, username, password, invitation_code, found, level ))
     cur.connection.commit()
-
+    cur.execute('''SELECT * from Invitation_codes WHERE code=%s ORDER BY id DESC LIMIT 1''', ([invitation_code]))
+    records = cur.fetchall()
+    huidige_aantal = records[0][2]
+    print(huidige_aantal)
+    huidige_aantal += 1
+    cur.execute('''UPDATE Invitation_codes SET times_used=%s WHERE code=%s''', (huidige_aantal, invitation_code))
+    cur.connection.commit()
+    
     return
 
 def read_user_data(cur):
@@ -107,17 +114,15 @@ def read_invitation_codes(cur):
 
 def check_credentials(username, password, cur):
     user_data = read_user_data(cur)
-    match = False
     hash = ""
     for row in user_data:
         usr_name = row[2]
         pssw_hash = row[3]
         if usr_name == username:
             print("*** MATCH FOUND! ***")
-            match = True
             hash = pssw_hash
     
-    return verify_password(pssw_hash, password)
+    return verify_password(hash, password)
 
 def launch_probe(x,y,z,cur):
     user = user_id(cur,session.get('user'))
@@ -178,6 +183,17 @@ def closest_planet(cur, user):
         planets = []
         planets = get_planet_coords(cur)
         closest = 888888
+        counter = 0
+        found_planet = -1
+
+        print("_________________________")
+
+        print("x = ",x)
+        print("y = ",y)
+        print("z = ",z)
+
+        print("_________________________")
+
         for planet in planets:
             xp = planet[0]
             yp = planet[1]
@@ -186,6 +202,15 @@ def closest_planet(cur, user):
             distance =  ((x-xp)**2 + (y-yp)**2 + (z-zp)**2)**(0.5)
             if distance < closest:
                 closest = distance
+                if closest == 0:
+                    found_planet = counter
+                else:
+                    print("xp = ",xp)
+                    print("yp = ",yp)
+                    print("zp = ",zp)
+                    print("",)
+                    
+            counter += 1
 
         closest = int(closest)
 
@@ -197,9 +222,11 @@ def closest_planet(cur, user):
 
 
         if closest == 0:
-            return "You have found a planet !"
+            name_found_planet = name_planet(cur, found_planet)
+            output = "You have found planet " + name_found_planet +  " !"
+            return output
         else:
-            return "Shortest distance to a planet = " + str(closest) + " KM"
+            return "Shortest distance to a planet = " + str(closest) + ".000 KM"
 
 def create_report(cur, user):
 
@@ -230,3 +257,24 @@ def get_planet_coords(cur):
         z = record[4]
         planets.append([x,y,z])
     return planets
+
+def name_planet(cur, found_planet):
+    cur.execute('''SELECT * FROM Planets ''')
+    records = cur.fetchall()
+    name = records[found_planet][1]
+    return name
+
+def report_list(cur, user):
+
+    id = user_id(cur, user)
+    r_list = []
+
+    cur.execute('''SELECT * FROM Reports ''')
+    records = cur.fetchall()
+
+    for record in records:
+        if record[1] == id:
+            temp_string = str(record[2]) + " / " + str(record[3]) + " / " + str(record[4])  + " <--> " + str(record[5]) + ".000 km"
+            r_list.append(temp_string)
+
+    return r_list

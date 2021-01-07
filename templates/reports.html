@@ -43,10 +43,16 @@
           </div>
 
           <div class="main-center-index">
-              <div class="mc-title"><h6>Reports</h6></div>
-              <div class="message">
-                {{message}}
-              </div>
+              <div class="report">
+                  <h1>Reports</h1>
+                  <br/>
+                  <p style="font-weight: bold;"> &nbsp;x&nbsp; /  &nbsp;y&nbsp;  /  &nbsp;z&nbsp;  &#x3c;--&#62; distance</p>
+                  <br/>
+                  {% for launch in launches %}
+                    <p>{{launch}}</p>
+                  {% endfor %}
+             </div>
+
           </div>
         </div>
 
