@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
-from database import get_time,  closest_planet, create_report, report_list
+from database import get_time,  closest_planet, create_report, report_list, get_user_planets
 import datetime
 from helper import hash_password, verify_password, time_left
 
@@ -27,6 +27,7 @@ def home():
         cur = mysql.connection.cursor()
         user = session.get('user')
         state = session.get('state') #options : clear, launched, ... , ... 
+        planets = get_user_planets(cur, user)
         time = 0
         if state:
             if state == 'launched':
@@ -60,7 +61,7 @@ def home():
         else:
             message = "All systems operational"
             message = "Time var = " + str(time)
-            return render_template('index.html',  message=message, user=user, state=state + "()", time=time)
+            return render_template('index.html',  message=message, user=user, state=state + "()", time=time, planets=planets)
     else:
         return redirect(url_for('login_page'))
 

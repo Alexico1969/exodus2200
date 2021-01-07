@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for, session, Markup
 import MySQLdb
 from helper import verify_password
 
@@ -278,3 +278,10 @@ def report_list(cur, user):
             r_list.append(temp_string)
 
     return r_list
+
+def get_user_planets(cur, user):
+    
+    id = user_id(cur, user)
+    output = ""
+    output = Markup("<p>Tygross</p><p>Mycos</p>")
+    return output

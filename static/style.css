@@ -149,6 +149,18 @@ input{
     padding-top: 40px;
 }
 
+.planets{
+    float: right;
+    margin-top: 200px;
+    margin-right: 10px;
+    width: 208px;
+    background-color:  #5d809c;
+    border: 1px solid  rgb(36,82,122, 0.4);
+    border-radius: 5px;
+    color: white;
+}
+
+
 .mc-title{
     
     margin-top: 5px;
