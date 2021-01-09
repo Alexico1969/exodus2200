@@ -31,7 +31,7 @@
           <div class="tiles">
             <form action="" method="post" id="launch_buttons">
               <div class="tile" id="launch_button">
-              <button class="launch-btn" type="submit" name="action" value="launch">Launch</br>Probe</button>
+                <button class="launch-btn" type="submit" name="action" value="launch">Launch</br>Probe</button>
               </div>
               <div class="tile" id="data_button">
                 <button class="launch-btn" type="submit" name="action" value="read">Read</br>Data</button>
@@ -84,6 +84,9 @@
       console.log("*** FUNCTION CLEAR ***");
       $('#data_button').css('background-color','grey');
       $('#data_button').html("");
+      $('#data_button').css('background-color','grey');
+      $('#data_button').html("");
+      $('.tile').css('display','block');
     }
 
     function launched(){
@@ -95,6 +98,7 @@
       $('#launch_button').css('color','white');
       $('#data_button').css('background-color','grey');
       var time = parseFloat("{{time}}");
+      $('.tile').css('display','block');
       setInterval(function(){
         time = time - 0.0166;
         output = time.toFixed(2) + "<p>minutes</p>" + "<p>from landing</p>"
@@ -112,6 +116,7 @@
       console.log("*** FUNCTION LANDED ***");
       $('#launch_button').css('background-color','grey');
       $('#launch_button').html("");
+      $('.tile').css('display','block');
     }
 
 

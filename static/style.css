@@ -89,7 +89,7 @@ input{
 }
 
 .tile{
-    display: block;
+    display: none;
     background-color: #24527A;
     padding-top: 10px;
     border-radius: 20px;
@@ -103,6 +103,10 @@ input{
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+}
+
+#launch-button{
+    display: none;
 }
 
 .main-center{

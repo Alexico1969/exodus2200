@@ -47,10 +47,15 @@ def home():
             elif request.form.get("action") == "launch":
                 return redirect(url_for('launch'))
             elif request.form.get("action") == "read":
-                message = closest_planet(cur, user)
-                create_report(cur, user)
-                change_state(cur, user, "clear")
-                return render_template("message.html", message=message, goto="/")
+                time = time_left(get_time(cur))
+                if time <= 0:
+                    message = closest_planet(cur, user)
+                    create_report(cur, user)
+                    change_state(cur, user, "clear")
+                    return render_template("message.html", message=message, goto="/")
+                else:
+                    message = "Probe is still on it's way..."
+                    return render_template("message.html", message=message, goto="/")
             elif request.form.get("action") == "reports":
                 print("Going to route REPORTS")
                 return redirect(url_for('report'))
