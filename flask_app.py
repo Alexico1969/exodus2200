@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
-from database import get_time,  closest_planet, create_report, report_list, get_user_planets
+from database import get_time,  closest_planet, create_report, report_list, get_user_planets, reports_exist
 import datetime
 from helper import hash_password, verify_password, time_left
 
@@ -64,8 +64,7 @@ def home():
                 print(output)
             return render_template('index.html',  message=message)
         else:
-            message = "All systems operational"
-            message = "Time var = " + str(time)
+            message = "Use left side buttons to launch probes, read results and reports"
             return render_template('index.html',  message=message, user=user, state=state + "()", time=time, planets=planets)
     else:
         return redirect(url_for('login_page'))
@@ -95,8 +94,12 @@ def login_page():
             print("## CHECKPOINT CHARLIE ##")
             session['level'] = get_level(cur, username)
             session['state'] = get_state(cur, username)
-            cur.close()
-            return render_template("message.html", message=message, goto="/")
+            if reports_exist(cur, username):
+                cur.close()
+                return render_template("message.html", message=message, goto="/")
+            else:
+                cur.close()
+                return render_template("message.html", message=message, goto="/intro")
         else:
             cur.close()
             message="username unknown or wrong password"
@@ -210,6 +213,18 @@ def report():
                 return redirect(url_for('home'))
 
         return render_template('reports.html', message=message, user=user, state="clear()", time=0, launches=launches)
+    else:
+        return redirect(url_for('login_page'))
+
+@app.route("/intro", methods=['GET', 'POST'])        
+def intro():
+    if session.get('user'):
+        if session.get('intro'):
+            return redirect(url_for('home'))
+        else:
+            session["intro"] = "done"
+            message = ""
+            return render_template('intro.html', message=message)
     else:
         return redirect(url_for('login_page'))
 

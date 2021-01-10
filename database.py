@@ -321,3 +321,15 @@ def found_string(cur, id):
     f_string = records[0][7]
     return f_string
 
+def reports_exist(cur, user):
+    id = user_id(cur, user)
+
+    cur.execute('''SELECT * FROM Reports WHERE user_id=%s''', (id,))
+    records = cur.fetchone()
+
+    if records == None:
+        result = False
+    else:
+        result = True
+
+    return result

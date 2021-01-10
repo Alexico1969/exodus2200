@@ -138,6 +138,14 @@ input{
     border-radius: 5px;
 }
 
+.intro-clip{
+    position: relative;
+    top: -100px;
+    width: 100%;
+    height: auto;
+    background-color: red;
+}
+
 .main-center-index{
     display: inline;
     position: absolute;
@@ -182,10 +190,11 @@ input{
 
 .message{
     text-align: center;
+    padding: 10px;
 }
 
 .alert{
-    background-color: red;
+    background-color: #97afbf;
     font-weight: bold;
 }
 
@@ -214,7 +223,7 @@ input{
     margin-left: auto;
     position: fixed;
     bottom: 10px;
-    left: 50%;
+    left: 41%;
 }
 
 .footer-right{
