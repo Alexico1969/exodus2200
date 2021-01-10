@@ -8,14 +8,25 @@
   <body>
 
 
-    <p>top</p>
+    <p>Admin</p>
     <hr>
 
     <h3>Users</h3>
+    
+    <table>
+      <tr><th>id</th><th>Name</th><th>Username</th><th>Date</th><th>Inv.code</th><th>lvl</th><th>found</th><th>last_date</th></tr>
+      
+      {% for u in users %}
 
-    {% for u in users %}
-      <p >{{u}}</p>
-    {% endfor %}
+      
+        <tr><td>{{u[0]}}</td><td>{{u[1]}}</td><td>{{u[2]}}</td><td>{{u[4]}}</td><td>{{u[5]}}</td><td>{{u[6]}}</td><td>{{u[7]}}</td><td>{{u[9]}}</td></tr>
+
+        
+      {% endfor %}
+
+    </table>
+
+    
 
     <h3>Planets</h3>
 

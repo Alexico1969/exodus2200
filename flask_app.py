@@ -85,7 +85,7 @@ def login_page():
             session['logged_in'] = True
             session['admin'] = True
             session['user'] = username
-            return redirect(url_for('home'))
+            return redirect(url_for('admin'))
         elif check_credentials(username, password, cur):
             message = "You are logged in as " + str(username)
             session['logged_in'] = True
