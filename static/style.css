@@ -194,8 +194,7 @@ input{
 }
 
 .alert{
-    background-color: red;
-    font-weight: bold;
+        font-weight: bold;
 }
 
 .footer{

@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
 from database import get_time,  closest_planet, create_report, report_list, get_user_planets, reports_exist
+from database import read_reports
 import datetime
 from helper import hash_password, verify_password, time_left
 
@@ -156,13 +157,15 @@ def admin():
         #create_tables(cur)
         #add_test_data(cur)
         users = read_user_data(cur)
-        planets = read_planet_data(cur)
+        planets = ["alasss.... "]
         invitation_codes = read_invitation_codes(cur)
+        reports = read_reports(cur)
         message = chr(4) + " " + chr(5) + " " + chr(30) + " " + chr(31)
         return render_template('admin.html', 
                                 users=users, 
                                 planets=planets,
                                 invitation_codes=invitation_codes,
+                                reports=reports,
                                 message=message)
     else:
         return redirect(url_for('login_page'))

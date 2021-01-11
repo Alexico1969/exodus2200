@@ -112,6 +112,11 @@ def read_invitation_codes(cur):
     records = cur.fetchall()
     return records
 
+def read_reports(cur):
+    cur.execute('''SELECT * FROM Reports''')
+    records = cur.fetchall()
+    return records
+
 def check_credentials(username, password, cur):
     user_data = read_user_data(cur)
     hash = ""

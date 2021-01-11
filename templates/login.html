@@ -3,6 +3,7 @@
     <title>USS - login</title>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -36,7 +37,7 @@
               </div>
             </form>
         </div>
-        <div class="message alert">
+        <div class="message alert" id="alert">
             {{message}}
         </div>
 
@@ -53,7 +54,24 @@
     </div>
 
 
-  </body>
+    <script>
 
+        $(document).ready(function(){
+            var alert_content = $('#alert').text();
+
+            trimmed = alert_content.trim();
+
+            var n = trimmed.charCodeAt(0);
+
+            if (!isNaN(n)){
+                $('#alert').css('background-color','red');
+            }
+        });
+
+        
+    </script>
+
+  </body>
+  
 
 </html>
