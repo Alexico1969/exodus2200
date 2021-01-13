@@ -40,6 +40,9 @@
               <div class="tile">
                 <button class="launch-btn" type="submit" name="action" value="reports">Read</br>Reports</button>
               </div>
+              <div class="tile">
+                <button class="launch-btn" type="submit" name="action" value="lab" id="lab-btn">Tech</br>Lab</button>
+              </div>
             </form>
           </div>
 
@@ -76,6 +79,12 @@
 
   </body>
   <script>
+
+  $(document).ready(function(){
+      $('#lab-btn').css('background-color','yellow');
+      $('#lab-btn').css('color','black');
+    });
+
 
     function error(){
       console.log("*** STATE ERROR ***");

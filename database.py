@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for, session, Markup
-import MySQLdb
+import MySQLdb, time, datetime
 from helper import verify_password
 
 #app = Flask(__name__)
@@ -338,3 +338,20 @@ def reports_exist(cur, user):
         result = True
 
     return result
+
+def process_login(cur, user):
+    id = user_id(cur, user)
+    cur.execute('''SELECT * FROM Users WHERE user_id=%s''', (id,))
+    records = cur.fetchall()
+    last_login = str(records[0][9])
+    ts = time.time()
+    st = str(datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
+    day_last = int(last_login[8:10])
+    day_now = int(st[8:10])
+    print("-->  DAY LAST  = ", day_last)
+    print("-->  DAY NOW   = ", day_now)
+    timespan = day_now - day_last
+    print("-->  TIMESPAN  = ", timespan)
+    cur.execute('''UPDATE Users SET last_time=%s WHERE user_id=%s''', (st, id))
+    cur.connection.commit()
+    return timespan

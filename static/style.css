@@ -109,6 +109,11 @@ input{
     display: none;
 }
 
+#lab-btn{
+    background-color: goldenrod;
+    color: black;
+}
+
 .main-center{
     background-image: url("images/Planet_Search_Logo_light.png");
     background-repeat: no-repeat;

@@ -3,7 +3,7 @@ from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
 from database import get_time,  closest_planet, create_report, report_list, get_user_planets, reports_exist
-from database import read_reports
+from database import read_reports, process_login
 import datetime
 from helper import hash_password, verify_password, time_left
 
@@ -60,6 +60,14 @@ def home():
             elif request.form.get("action") == "reports":
                 print("Going to route REPORTS")
                 return redirect(url_for('report'))
+            elif request.form.get("action") == "lab":
+                timespan = session.get('timespan')
+                level = session.get('level')
+                if timespan == 0 and level > 0:
+                    message = "The Tech Lab staff is on a well deserved vacation. Try again tomorrow."
+                else:
+                    message = "This is a hint !"
+                return render_template("message.html", message=message, goto="/")
             else:
                 output = request.form.get("action")
                 print(output)
@@ -72,9 +80,9 @@ def home():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login_page():
+    cur = mysql.connection.cursor()
     message = ""
     if request.method == 'POST':
-        cur = mysql.connection.cursor()
         if request.form.get("R") == "register":
             return redirect(url_for('register'))
         else:
@@ -95,6 +103,7 @@ def login_page():
             print("## CHECKPOINT CHARLIE ##")
             session['level'] = get_level(cur, username)
             session['state'] = get_state(cur, username)
+            session['timespan'] = process_login(cur, username)
             if reports_exist(cur, username):
                 cur.close()
                 return render_template("message.html", message=message, goto="/")
