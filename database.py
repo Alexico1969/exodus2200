@@ -17,7 +17,7 @@ def create_tables(cur):
     #s = cur.execute('''DROP TABLE Reports''')
     print("----------------------------------------------------")
     
-    s = cur.execute('''CREATE TABLE IF NOT EXISTS Users (   user_id INT NOT NULL AUTO_INCREMENT, 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Users (   user_id INT NOT NULL AUTO_INCREMENT, 
                                                             name VARCHAR(255),
                                                             username VARCHAR(32),
                                                             password VARCHAR(255),
@@ -31,7 +31,7 @@ def create_tables(cur):
                                                             )''')
 
     """                                                            
-    #s = cur.execute('''CREATE TABLE IF NOT EXISTS Planets ( planet_id INT NOT NULL, 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Planets ( planet_id INT NOT NULL, 
                                                             name VARCHAR(50),
                                                             x_pos INT,
                                                             y_pos INT,
@@ -41,13 +41,14 @@ def create_tables(cur):
                                                             PRIMARY KEY (planet_id) 
                                                             )''')
     
-    #s = cur.execute('''CREATE TABLE IF NOT EXISTS Planets (id INT, name VARCHAR(20))''')
-    #s = cur.execute('''CREATE TABLE IF NOT EXISTS State (id INT, name VARCHAR(20))''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS Planets (id INT, name VARCHAR(20))''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS State (id INT, name VARCHAR(20))''')
 
     """
     #cur.execute('''CREATE TABLE IF NOT EXISTS Invitation_codes(id INT, code VARCHAR(20), times_used INT)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS Hints(hint_id INT NOT NULL AUTO_INCREMENT, hint VARCHAR(255), PRIMARY KEY (hint_id))''')
 
-    s = cur.execute('''CREATE TABLE IF NOT EXISTS Launches ( launch_id INT NOT NULL AUTO_INCREMENT,
+    cur.execute('''CREATE TABLE IF NOT EXISTS Launches ( launch_id INT NOT NULL AUTO_INCREMENT,
                                                             user_id INT,
                                                             x_desto INT,
                                                             y_desto INT,
@@ -57,7 +58,7 @@ def create_tables(cur):
                                                             PRIMARY KEY (launch_id)
                                                         );''')
     
-    s = cur.execute('''CREATE TABLE IF NOT EXISTS Reports ( report_id INT NOT NULL AUTO_INCREMENT,
+    cur.execute('''CREATE TABLE IF NOT EXISTS Reports ( report_id INT NOT NULL AUTO_INCREMENT,
                                                             user_id INT,
                                                             x_desto INT,
                                                             y_desto INT,
@@ -234,10 +235,6 @@ def closest_planet(cur, user):
         else:
             return "Shortest distance to a planet = " + str(closest) + ".000 KM"
 
-def create_report(cur, user):
-
-    return
-
 def get_xyz(cur, user):
     coord_list = []
     cur.execute('''SELECT * FROM Launches where user_id=%s ORDER BY launch_id DESC LIMIT 1''', (user,))
@@ -355,3 +352,23 @@ def process_login(cur, user):
     cur.execute('''UPDATE Users SET last_time=%s WHERE user_id=%s''', (st, id))
     cur.connection.commit()
     return timespan
+
+def insert_hint(cur, hint):
+    cur.execute('''INSERT INTO Hints (hint) VALUES (%s)''', (hint,))
+    cur.connection.commit()
+    return
+
+def get_hint(cur, index):
+    cur.execute('''SELECT * FROM Hints''')
+    records = cur.fetchall()
+    hint = records[index][1]
+    full_sentence = "After doing some research, your scientists came to the following conclusion : " + hint
+    return full_sentence
+
+def set_level(cur, user, level):
+    id = user_id(cur, user)
+    cur.execute('''UPDATE Users SET level=%s WHERE user_id=%s''', (level, id))
+    cur.connection.commit()
+    return
+    
+

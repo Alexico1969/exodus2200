@@ -2,8 +2,8 @@ from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
-from database import get_time,  closest_planet, create_report, report_list, get_user_planets, reports_exist
-from database import read_reports, process_login
+from database import get_time,  closest_planet, report_list, get_user_planets, reports_exist
+from database import read_reports, process_login, insert_hint, get_hint, set_level
 import datetime
 from helper import hash_password, verify_password, time_left
 
@@ -64,9 +64,15 @@ def home():
                 timespan = session.get('timespan')
                 level = session.get('level')
                 if timespan == 0 and level > 0:
-                    message = "The Tech Lab staff is on a well deserved vacation. Try again tomorrow."
+                    message = "The Tech Lab staff is on a well deserved break. Try again tomorrow."
                 else:
-                    message = "This is a hint !"
+                    if level <= 12:
+                        message = get_hint(cur, level)
+                        level += 1
+                        set_level(cur, user, level)
+                        session['level'] = level
+                    else:
+                        message = "Your Tech Lab staff is on a long, long vacation"
                 return render_template("message.html", message=message, goto="/")
             else:
                 output = request.form.get("action")
@@ -163,13 +169,18 @@ def admin():
 
     if session.get('admin'):
         cur = mysql.connection.cursor()
-        #create_tables(cur)
-        #add_test_data(cur)
-        users = read_user_data(cur)
         planets = ["alasss.... "]
+        users = read_user_data(cur)
         invitation_codes = read_invitation_codes(cur)
         reports = read_reports(cur)
         message = chr(4) + " " + chr(5) + " " + chr(30) + " " + chr(31)
+
+        if request.method == "POST":
+            hint = request.form.get("hint")
+            insert_hint(cur, hint)
+            return redirect(url_for('admin'))
+
+
         return render_template('admin.html', 
                                 users=users, 
                                 planets=planets,
