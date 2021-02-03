@@ -51,7 +51,6 @@ def home():
                 time = time_left(get_time(cur))
                 if time <= 0:
                     message = closest_planet(cur, user)
-                    create_report(cur, user)
                     change_state(cur, user, "clear")
                     return render_template("message.html", message=message, goto="/")
                 else:
