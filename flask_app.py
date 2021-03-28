@@ -44,7 +44,7 @@ def home():
         if request.method == "POST":
             if request.form.get("L") == "logout":
                 session.clear()
-                return redirect(url_for('login_page'))
+                return render_template("logout.html", goto="/login")
             elif request.form.get("action") == "launch":
                 return redirect(url_for('launch'))
             elif request.form.get("action") == "read":
@@ -198,7 +198,7 @@ def launch():
         if request.method == "POST":
             if request.form.get("L") == "logout":
                 session.clear()
-                return redirect(url_for('login_page'))
+                return render_template("logout.html", goto="/login")
             elif request.form.get("x_desto") and request.form.get("y_desto") and request.form.get("z_desto"):
                 cur = mysql.connection.cursor()
                 x = request.form.get("x_desto")

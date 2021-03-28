@@ -1,10 +1,12 @@
 <html>
   <head>
     <title>USS - login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta name="google-signin-client_id" content="590725839126-4guu9dmellvg3ap0nr09bo0496bmfi1j.apps.googleusercontent.com">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
   <body>
     <div class="container">
@@ -25,6 +27,7 @@
         </div>
         <div class="main-center">
             <div class="mc-title"><h6>Login</h6></div>
+            <div class="g-signin2 google" data-onsuccess="onSignIn"></div>
             <form method="POST">
                 <input type="text" name="username" placeholder="Username">
                 <input type="password"name="password" placeholder="Password">
@@ -58,6 +61,7 @@
     <script>
 
         $(document).ready(function(){
+            console.log("*** Document ready ***");
             var alert_content = $('#alert').text();
 
             trimmed = alert_content.trim();
@@ -67,7 +71,22 @@
             if (!isNaN(n)){
                 $('#alert').css('background-color','red');
             }
+
+            function onSignIn(googleUser) {
+                console.log("*** Google verification started ***");
+                var profile = googleUser.getBasicProfile();
+                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                console.log('Name: ' + profile.getName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+                var id_token = googleUser.getAuthResponse().id_token;
+                console.log('id_token = ', id_token);
+
+            }
         });
+
+
 
         
     </script>

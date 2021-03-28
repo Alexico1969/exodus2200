@@ -197,9 +197,8 @@ input{
 
 
 .mc-title{
-    
     margin-top: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .desto_input{
@@ -209,6 +208,12 @@ input{
 .submit{
     margin-top: 50px;
     text-align: center;
+}
+
+.google{
+    text-align: center;
+    margin-left: auto;
+    margin-left: auto;
 }
 
 .message{
