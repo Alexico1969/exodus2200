@@ -5,7 +5,7 @@ from database import read_invitation_codes, check_credentials, launch_probe, get
 from database import get_time,  closest_planet, report_list, get_user_planets, reports_exist
 from database import read_reports, process_login, insert_hint, get_hint, set_level
 import datetime
-from helper import hash_password, verify_password, time_left
+from helper import hash_password, verify_password, time_left, random_username, random_password
 
 app = Flask(__name__)
 app.secret_key = 'super secret key2'
@@ -44,7 +44,7 @@ def home():
         if request.method == "POST":
             if request.form.get("L") == "logout":
                 session.clear()
-                return render_template("logout.html", goto="/login")
+                return render_template("logout.html", goto="/start")
             elif request.form.get("action") == "launch":
                 return redirect(url_for('launch'))
             elif request.form.get("action") == "read":
@@ -82,7 +82,35 @@ def home():
             message = "Use left side buttons to launch probes, read results and reports"
             return render_template('index.html',  message=message, user=user, state=state + "()", time=time, planets=planets)
     else:
-        return redirect(url_for('login_page'))
+        return redirect(url_for('start'))
+
+
+@app.route("/start", methods=['GET', 'POST'])        
+def start():
+    if session.get('user'):
+        return redirect(url_for('home'))
+    else:
+        if request.method == "POST":
+            if request.form.get("action") == "login":
+                return redirect(url_for('login_page'))
+            elif request.form.get("action") == "register":
+                return redirect(url_for('register'))
+            else:
+                cur = mysql.connection.cursor()
+                pssw1 = random_password()
+                name = "guest"
+                username = random_username()
+                inv_code = "NOT_REGISTERED"
+                level = 0              
+                password = hash_password(pssw1)
+                session['logged_in'] = True
+                session['admin'] = False
+                session['user'] = username
+                add_user(cur, name, username, password, inv_code, level)
+                cur.close()
+                return redirect(url_for('home'))
+
+    return render_template("start.html")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login_page():
@@ -217,7 +245,7 @@ def launch():
         
         return render_template('launch.html', user=user, message=message)
     else:
-        return redirect(url_for('login_page'))
+        return redirect(url_for('start'))
 
 
 @app.route("/report", methods=['GET', 'POST'])        
@@ -249,5 +277,5 @@ def intro():
             message = ""
             return render_template('intro.html', message=message)
     else:
-        return redirect(url_for('login_page'))
+        return redirect(url_for('start'))
 

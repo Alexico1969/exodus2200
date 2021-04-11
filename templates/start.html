@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>USS - start</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+        <div class="top">
+
+
+
+            <div class="logo">
+                <img class="logo-pic" src="static/images/Planet_Search_Logo.png">
+            </div>
+        </div>
+        <div class="main-center">
+            <div class="mc-title"><h6>Start</h6></div>
+            <form method="POST">
+                <div  class="message">
+                    Would you like to <strong>login</strong> or <strong>register</strong>,<br>so your progress is saved over time? <br><br>
+                    Or would you rather just <strong>tryout</strong> the game.<br> (progress will be lost tomorrow) <br><br>
+                </div>
+                    <input type="submit" name="action" value="login">                    
+                    <input type="submit" name="action" value="register">                    
+                    <input type="submit" name="action" value="tryout">                    
+
+            </form>
+
+        </div>
+
+        <div class="footer">
+            <hr>
+            <div class="footer-left">
+                Status : Not logged in
+            </div>
+            <div class="footer-right">
+                ID : 100299188291
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+
+        $(document).ready(function(){
+            var alert_content = $('#alert').text();
+
+            trimmed = alert_content.trim();
+
+            var n = trimmed.charCodeAt(0);
+
+            if (!isNaN(n)){
+                $('#alert').css('background-color','red');
+            }
+        });
+
+        
+    </script>
+
+  </body>
+  
+</html>
