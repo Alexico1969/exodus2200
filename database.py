@@ -172,11 +172,8 @@ def get_time(cur):
 def user_id(cur, name):
     cur.execute('''SELECT * FROM Users where username=%s''', (name,))
     records = cur.fetchall()
-    try:
-        output = records[0][0]
-    except:
-        output = "anonymous"
-    return output
+    print("User_Id: ", records[0][0])
+    return records[0][0]
 
 def closest_planet(cur, user):
     usr_id = user_id(cur, user)
@@ -323,10 +320,7 @@ def add_planet_found(cur, user, planet_nr):
 def found_string(cur, id):
     cur.execute('''SELECT * FROM Users WHERE user_id=%s''', (id,))
     records = cur.fetchall()
-    if records:
-        f_string = records[0][7]
-    else:
-        f_string = "00000000"
+    f_string = records[0][7]
     return f_string
 
 def reports_exist(cur, user):
