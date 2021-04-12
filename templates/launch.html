@@ -34,14 +34,78 @@
           <div class="main-center-index">
               <div class="mc-title"><h6>Set destination</h6></div>
 
-              <form method="POST">
+              <div class="set_desto">
+
+                <table>
+                  <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+                  <tr><th></th><th></th><th>X</th><th></th><th></th><th></th><th></th><th>Y</th><th></th><th></th><th><th></th><th>Z</th><th></th></tr>
+                  <tr>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                  </tr>
+
+                  <tr>
+                    <td>+</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td></td>
+                    <td>+</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td></td>
+                    <td>+</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+
+                  <tr>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                  </tr>
+                </table>
+
+                <div><br><button class="launch-btn">Launch</button></div>
+
+              </div>
+              
+              <!--form method="POST">
                 <input type="text" class="desto_input" name="x_desto" placeholder="x desto" pattern="-?[0-9]{3}" required>
                 <input type="text" class="desto_input" name="y_desto" placeholder="y desto" pattern="-?[0-9]{3}" required>
                 <input type="text" class="desto_input" name="z_desto" placeholder="z desto" pattern="-?[0-9]{3}" required>
                 <div class="submit">
                     <input type="submit" value="launch">                    
                 </div>
-              </form>
+              </form-->
+
+              
+
               <div class="message">
                 {{message}}
               </div>
@@ -64,7 +128,26 @@
         </div>
     </div>
 
+    <script>
+      var x = 0;
+      var y = 0;
+      var z = 0;
+
+
+
+    </script>
+
   </body>
 
 
 </html>
+
+
+              <!--form method="POST">
+                <input type="text" class="desto_input" name="x_desto" placeholder="x desto" pattern="-?[0-9]{3}" required>
+                <input type="text" class="desto_input" name="y_desto" placeholder="y desto" pattern="-?[0-9]{3}" required>
+                <input type="text" class="desto_input" name="z_desto" placeholder="z desto" pattern="-?[0-9]{3}" required>
+                <div class="submit">
+                    <input type="submit" value="launch">                    
+                </div>
+              </form -->

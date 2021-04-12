@@ -105,6 +105,7 @@ def start():
                 session['admin'] = False
                 session['user'] = username
                 session['state'] = "clear"
+                session['level'] = 0
                 add_user(cur, name, username, password, inv_code, level)
                 cur.close()
                 return redirect(url_for('home'))
@@ -221,7 +222,7 @@ def admin():
 def launch():
 
     if session.get('user') and session.get('state') == 'clear':
-        message="Right : '023', '-821'  ; Wrong : '0', '-11', '1234'"
+        message="Use +,- buttons to set X,Y,Z, then click LAUNCH !"
         user = session.get('user')
         if request.method == "POST":
             if request.form.get("L") == "logout":

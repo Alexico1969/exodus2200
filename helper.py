@@ -24,7 +24,7 @@ def time_left(launch_time):
     diff = now - launch_time
     minutes = int((diff.total_seconds())/60)
     print("minutes = " , minutes)
-    return 2 - minutes
+    return minutes
 
 def random_username():
     temp_string = "guest_"

@@ -1,0 +1,6 @@
+Main color (lightblue)  : #97afbf
+Bg color (lighter blue) : #d9f4f7
+logo(1)                 : #24527a
+logo(2)                 : #4e95ab
+
+
