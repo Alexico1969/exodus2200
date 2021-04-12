@@ -4,7 +4,6 @@ from database import create_tables, add_test_data, read_user_data, read_planet_d
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
 from database import get_time,  closest_planet, report_list, get_user_planets, reports_exist
 from database import read_reports, process_login, insert_hint, get_hint, set_level
-import datetime
 from helper import hash_password, verify_password, time_left, random_username, random_password
 
 app = Flask(__name__)
@@ -51,7 +50,6 @@ def home():
                 time = time_left(get_time(cur))
                 if time <= 0:
                     message = closest_planet(cur, user)
-                    create_report(cur, user)
                     change_state(cur, user, "clear")
                     return render_template("message.html", message=message, goto="/")
                 else:
@@ -279,4 +277,9 @@ def intro():
             return render_template('intro.html', message=message)
     else:
         return redirect(url_for('start'))
+
+@app.route("/logout", methods=['GET', 'POST'])
+def logout():
+    session.clear()
+    return render_template("logout.html", goto="/start")
 
