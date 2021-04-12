@@ -6,6 +6,12 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel=stylesheet type=text/css href="../static/style.css">
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <style>
+      .mb20{
+        margin-bottom: 20px;
+      }
+    </style>
 
   </head>
   <body>
@@ -32,7 +38,7 @@
 
 
           <div class="main-center-index">
-              <div class="mc-title"><h6>Set destination</h6></div>
+              <div class="mb20"><h6>Set destination</h6></div>
 
               <div class="set_desto">
 
@@ -41,53 +47,53 @@
                   <tr><th></th><th></th><th>X</th><th></th><th></th><th></th><th></th><th>Y</th><th></th><th></th><th><th></th><th>Z</th><th></th></tr>
                   <tr>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_x_100" src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_x_10" src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_x_1" src="{{ url_for('static', filename='images/plus.png') }}"></td>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_y_100" src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_y_10" src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_y_1" src="{{ url_for('static', filename='images/plus.png') }}"></td>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_z_100" src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_z_10" src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img id="plus_z_1" src="{{ url_for('static', filename='images/plus.png') }}"></td>
                   </tr>
 
                   <tr>
-                    <td>+</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
+                    <td id="x_pm">+</td>
+                    <td id="x_100">0</td>
+                    <td id="x_10">0</td>
+                    <td id="x_1">0</td>
                     <td></td>
-                    <td>+</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
+                    <td id="y_pm">+</td>
+                    <td id="y_100">0</td>
+                    <td id="y_10">0</td>
+                    <td id="y_1">0</td>
                     <td></td>
-                    <td>+</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
+                    <td id="z_pm">+</td>
+                    <td id="z_100">0</td>
+                    <td id="z_10">0</td>
+                    <td id="z_1">0</td>
                   </tr>
 
                   <tr>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_x_100" src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_x_10" src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_x_1" src="{{ url_for('static', filename='images/minus.png') }}"></td>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_y_100" src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_y_10" src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_y_1" src="{{ url_for('static', filename='images/minus.png') }}"></td>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_z_100" src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_z_10" src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img id="min_z_1" src="{{ url_for('static', filename='images/minus.png') }}"></td>
                   </tr>
                 </table>
 
@@ -95,17 +101,6 @@
 
               </div>
               
-              <!--form method="POST">
-                <input type="text" class="desto_input" name="x_desto" placeholder="x desto" pattern="-?[0-9]{3}" required>
-                <input type="text" class="desto_input" name="y_desto" placeholder="y desto" pattern="-?[0-9]{3}" required>
-                <input type="text" class="desto_input" name="z_desto" placeholder="z desto" pattern="-?[0-9]{3}" required>
-                <div class="submit">
-                    <input type="submit" value="launch">                    
-                </div>
-              </form-->
-
-              
-
               <div class="message">
                 {{message}}
               </div>
@@ -129,10 +124,6 @@
     </div>
 
     <script>
-      var x = 0;
-      var y = 0;
-      var z = 0;
-
 
 
     </script>
@@ -141,13 +132,3 @@
 
 
 </html>
-
-
-              <!--form method="POST">
-                <input type="text" class="desto_input" name="x_desto" placeholder="x desto" pattern="-?[0-9]{3}" required>
-                <input type="text" class="desto_input" name="y_desto" placeholder="y desto" pattern="-?[0-9]{3}" required>
-                <input type="text" class="desto_input" name="z_desto" placeholder="z desto" pattern="-?[0-9]{3}" required>
-                <div class="submit">
-                    <input type="submit" value="launch">                    
-                </div>
-              </form -->
