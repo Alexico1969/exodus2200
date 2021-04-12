@@ -106,6 +106,7 @@ def start():
                 session['logged_in'] = True
                 session['admin'] = False
                 session['user'] = username
+                session['state'] = "clear"
                 add_user(cur, name, username, password, inv_code, level)
                 cur.close()
                 return redirect(url_for('home'))
