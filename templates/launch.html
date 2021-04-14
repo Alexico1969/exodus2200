@@ -7,11 +7,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel=stylesheet type=text/css href="../static/style.css">
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-    <style>
-      .mb20{
-        margin-bottom: 20px;
-      }
-    </style>
 
   </head>
   <body>
@@ -43,8 +38,8 @@
               <div class="set_desto">
 
                 <table>
-                  <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-                  <tr><th></th><th></th><th>X</th><th></th><th></th><th></th><th></th><th>Y</th><th></th><th></th><th><th></th><th>Z</th><th></th></tr>
+                  <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+                  <tr><th></th><th></th><th>X</th><th></th><th></th><th></th><th></th><th>Y</th><th></th><th></th><th><th></th><th>Z</th><th></th><th></th></tr>
                   <tr>
                     <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
                     <td><img id="plus_x_100" src="{{ url_for('static', filename='images/plus.png') }}"></td>
@@ -60,23 +55,25 @@
                     <td><img id="plus_z_100" src="{{ url_for('static', filename='images/plus.png') }}"></td>
                     <td><img id="plus_z_10" src="{{ url_for('static', filename='images/plus.png') }}"></td>
                     <td><img id="plus_z_1" src="{{ url_for('static', filename='images/plus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
                   </tr>
 
                   <tr>
-                    <td id="x_pm">+</td>
+                    <td><img id="x_pm" src="{{url_for('static', filename='images/plus_btn.png') }}"></td>
                     <td id="x_100">0</td>
                     <td id="x_10">0</td>
                     <td id="x_1">0</td>
                     <td></td>
-                    <td id="y_pm">+</td>
+                    <td><img id="y_pm" src="{{url_for('static', filename='images/plus_btn.png') }}"></td>
                     <td id="y_100">0</td>
                     <td id="y_10">0</td>
                     <td id="y_1">0</td>
                     <td></td>
-                    <td id="z_pm">+</td>
+                    <td><img id="z_pm" src="{{url_for('static', filename='images/plus_btn.png') }}"></td>
                     <td id="z_100">0</td>
                     <td id="z_10">0</td>
                     <td id="z_1">0</td>
+                    <td></td>
                   </tr>
 
                   <tr>
@@ -94,11 +91,13 @@
                     <td><img id="min_z_100" src="{{ url_for('static', filename='images/minus.png') }}"></td>
                     <td><img id="min_z_10" src="{{ url_for('static', filename='images/minus.png') }}"></td>
                     <td><img id="min_z_1" src="{{ url_for('static', filename='images/minus.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/empty20.png') }}"></td>
                   </tr>
                 </table>
 
-                <div><br><button class="launch-btn">Launch</button></div>
-
+                <form id="launch-form" action="" onsubmit="launchProbe()" method="POST">
+                    <div><br><button type="submit" class="launch-btn">Launch</button></div>
+                </form>
               </div>
               
               <div class="message">
