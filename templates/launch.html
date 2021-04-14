@@ -95,8 +95,11 @@
                   </tr>
                 </table>
 
-                <form id="launch-form" action="" onsubmit="launchProbe()" method="POST">
-                    <div><br><button type="submit" class="launch-btn">Launch</button></div>
+                <form id="launch-form" action="" method="POST">
+                    <input type="hidden" id="x_desto" name="x_desto" value="0">
+                    <input type="hidden" id="y_desto" name="y_desto" value="0">
+                    <input type="hidden" id="z_desto" name="z_desto" value="0">
+                    <div><br><button type="submit" id="launch-btn" class="launch-btn">Launch</button></div>
                 </form>
               </div>
               

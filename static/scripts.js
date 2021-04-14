@@ -32,7 +32,7 @@ $(document).ready(function(){
     $("#y_pm").on("click", reverseY);
     $("#z_pm").on("click", reverseZ);
     
-    /* $("#launch-btn").on("click", launchProbe); */
+    $("#launch-btn").on("click", launchProbe);
     
 
     /* ----------- X ------------- */
@@ -235,33 +235,12 @@ $(document).ready(function(){
       const final_y = sign_y * y;
       const final_z = sign_z * z;
 
-      console.log("Launching missile");
+      $("#x_desto").val(final_x);
+      $("#y_desto").val(final_y);
+      $("#z_desto").val(final_z);
 
-      submitVal = $('#submitButton').val();
-      $('#myForm').append("<input type='hidden' name='x_desto' value='"+ final_x +"' />");
-      $('#myForm').append("<input type='hidden' name='y_desto' value='"+ final_y +"' />");
-      $('#myForm').append("<input type='hidden' name='z_desto' value='"+ final_z +"' />");
+      console.log("Launching missile");
       return true;
 
-
-      /*
-     
-      const url = "/launch";
-      const data = {
-        x: final_x,
-        y: final_y,
-        z: final_z
-      }
-
-      
-
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        success: function(result){console.log("result",result)},
-       
-        });
-      */ 
     }
 });
