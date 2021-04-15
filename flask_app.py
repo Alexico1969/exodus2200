@@ -236,7 +236,7 @@ def launch():
                 launch_probe(x,y,z,cur)
                 message = "Destination set !           (" + x + "," + y + "," + z + ")"
                 change_state(cur, user, "launched")
-                return render_template("message.html", message=message, goto="/")
+                return render_template("launch_message.html", message=message, goto="/")
             else:
                 message = "Missing coordinates"
                 
@@ -247,6 +247,10 @@ def launch():
     else:
         return redirect(url_for('start'))
 
+
+@app.route("/watch", methods=['GET', 'POST'])        
+def watch():
+    return render_template('watch_launch.html')
 
 @app.route("/report", methods=['GET', 'POST'])        
 def report():

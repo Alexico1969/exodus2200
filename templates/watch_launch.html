@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>USS - msg</title>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <div class="logo">
+        <img class="logo-pic" src="static/images/Planet_Search_Logo.png">
+    </div>
+    
+    <div class="main-center">
+        <div class="mc-title"><h6>Launch recording</h6></div>
+        <div class="intro-clip-wrapper">
+          <video class="intro-clip" id="vid" controls autoplay>
+            <source src="../static/Probe_launch_03.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <form action="/">
+            <div class="submit">
+                <button class="bigger-btn" type="submit" value="OK">OK</button>
+            </div>
+        </form>
+    </div>
+
+    
+
+
+
+  </body>
+</html> 

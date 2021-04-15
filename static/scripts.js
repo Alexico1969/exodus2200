@@ -239,7 +239,7 @@ $(document).ready(function(){
       $("#y_desto").val(final_y);
       $("#z_desto").val(final_z);
 
-      console.log("Launching missile");
+      console.log("Launching probe");
       return true;
 
     }
