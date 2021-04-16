@@ -370,5 +370,21 @@ def set_level(cur, user, level):
     cur.execute('''UPDATE Users SET level=%s WHERE user_id=%s''', (level, id))
     cur.connection.commit()
     return
+
+def purge_guests(cur):
+    guest_ids = []    
+    cur.execute('''SELECT user_id from Users WHERE name='guest' ''')
+    records = cur.fetchall()
+    print("*** Fetching guest id's")
+    
+    for r in records:
+        guest_ids.append(r[0])
+    print("guest id's :", guest_ids)
+    print("*** purging guests ***")
+    for id in guest_ids:
+        cur.execute('''DELETE from Users WHERE user_id = %s''', (id,))
+        cur.execute('''DELETE from Reports WHERE user_id = %s''', (id,))
+    cur.connection.commit()
+
     
 

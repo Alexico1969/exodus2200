@@ -3,7 +3,7 @@ from flask_mysqldb import MySQL
 from database import create_tables, add_test_data, read_user_data, read_planet_data, add_user, add_planet_data
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
 from database import get_time,  closest_planet, report_list, get_user_planets, reports_exist
-from database import read_reports, process_login, insert_hint, get_hint, set_level
+from database import read_reports, process_login, insert_hint, get_hint, set_level, purge_guests
 from helper import hash_password, verify_password, time_left, random_username, random_password
 
 app = Flask(__name__)
@@ -204,9 +204,16 @@ def admin():
         message = chr(4) + " " + chr(5) + " " + chr(30) + " " + chr(31)
 
         if request.method == "POST":
-            hint = request.form.get("hint")
-            insert_hint(cur, hint)
-            return redirect(url_for('admin'))
+            action = request.form.get("action")
+            if action == "submit":
+                hint = request.form.get("hint")
+                insert_hint(cur, hint)
+                return redirect(url_for('admin'))
+            elif action == "purge_g":
+                purge_guests(cur)
+            else:
+                message="action input wrong"
+                return render_template('message', message=message)
 
 
         return render_template('admin.html', 
