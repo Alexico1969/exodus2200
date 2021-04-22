@@ -6,6 +6,11 @@ from database import get_time,  closest_planet, report_list, get_user_planets, r
 from database import read_reports, process_login, insert_hint, get_hint, set_level, purge_guests
 from helper import hash_password, verify_password, time_left, random_username, random_password
 
+import base64
+from io import BytesIO
+
+from matplotlib.figure import Figure
+
 app = Flask(__name__)
 app.secret_key = 'super secret key2'
 
@@ -261,7 +266,17 @@ def watch():
 
 @app.route("/show_result", methods=['GET', 'POST'])        
 def show_result():
-    return render_template('show_result.html')
+    fig = Figure()
+    ax = fig.subplots()
+    ax.plot([1, 2, 3, 4],[3,4,2,1])
+    # Save it to a temporary buffer.
+    buf = BytesIO()
+    fig.savefig(buf, format="png")
+    # Embed the result in the html output.
+    data = base64.b64encode(buf.getbuffer()).decode("ascii")
+    message = f"<img width='580px' height='auto' src='data:image/png;base64,{data}'/>"
+
+    return render_template('show_result.html', message = message)
 
 @app.route("/report", methods=['GET', 'POST'])        
 def report():

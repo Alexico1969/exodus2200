@@ -12,12 +12,11 @@
     </div>
     
     <div class="main-center">
-        <div class="mc-title"><h6>Notification</h6></div>
-        <div class="message"><h1>{{message}}</h1></div>
+        <div class="mb20"><h6 style="margin-bottom: 10px;">Plotted result</h6></div>
+        <div class="message">{{message | safe}}</div>
         <form action="{{goto}}">
             <div class="submit">
                 <button class="bigger-btn" type="submit" value="OK">OK</button><br><br>
-                <a href="/watch"><button class="bigger-btn" type="button" value="Watch">Watch Launch</button></a>
             </div>
         </form>
     </div>
