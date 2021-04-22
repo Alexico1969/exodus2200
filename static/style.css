@@ -293,3 +293,6 @@ td, th{
     margin-top: 0px;
 }
 
+#tryout_btn{
+    border: solid green 5px;
+}

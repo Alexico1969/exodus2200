@@ -108,7 +108,7 @@ def start():
                 session['level'] = 0
                 add_user(cur, name, username, password, inv_code, level)
                 cur.close()
-                return redirect(url_for('home'))
+                return redirect(url_for('intro'))
 
     return render_template("start.html")
 
@@ -258,6 +258,10 @@ def launch():
 @app.route("/watch", methods=['GET', 'POST'])        
 def watch():
     return render_template('watch_launch.html')
+
+@app.route("/show_result", methods=['GET', 'POST'])        
+def show_result():
+    return render_template('show_result.html')
 
 @app.route("/report", methods=['GET', 'POST'])        
 def report():
