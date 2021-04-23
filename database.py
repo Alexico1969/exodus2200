@@ -221,6 +221,8 @@ def closest_planet(cur, user):
 
         closest = int(closest)
 
+        session['distance'] = closest
+
         cur.execute('''INSERT INTO Reports (user_id, x_desto, y_desto, z_desto, dist_from_nearest) VALUES ( %s, %s, %s, %s, %s)''',(usr_id, x, y, z, distance))
         cur.connection.commit()
         print("-->  About to be deleted : All lauches with user id ", usr_id)

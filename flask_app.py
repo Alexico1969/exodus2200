@@ -6,6 +6,7 @@ from database import get_time,  closest_planet, report_list, get_user_planets, r
 from database import read_reports, process_login, insert_hint, get_hint, set_level, purge_guests
 from helper import hash_password, verify_password, time_left, random_username, random_password
 
+
 import base64
 from io import BytesIO
 
@@ -62,7 +63,7 @@ def home():
                 if time <= 0:
                     message = closest_planet(cur, user)
                     change_state(cur, user, "clear")
-                    return render_template("message.html", message=message, goto="/")
+                    return render_template("message.html", message=message, goto="/show_result")
                 else:
                     message = "Probe is still on it's way..."
                     return render_template("message.html", message=message, goto="/")
@@ -251,6 +252,11 @@ def launch():
                 x = request.form.get("x_desto")
                 y = request.form.get("y_desto")
                 z = request.form.get("z_desto")
+
+                session['x'] = x
+                session['y'] = y
+                session['z'] = z
+
                 launch_probe(x,y,z,cur)
                 message = "Destination set !           (" + x + "," + y + "," + z + ")"
                 change_state(cur, user, "launched")
@@ -270,30 +276,44 @@ def launch():
 def watch():
     return render_template('watch_launch.html')
 
-def randrange(n, vmin, vmax):
-    '''
-    Helper function to make an array of random numbers having shape (n, )
-    with each number distributed Uniform(vmin, vmax).
-    '''
-    return (vmax - vmin)*np.random.rand(n) + vmin
-
 @app.route("/show_result", methods=['GET', 'POST'])        
 def show_result():
-    x = 111
-    y = -222
-    z = 333
-    distance = 624000
-
+    x = int(session.get('x'))
+    y = int(session.get('y'))
+    z = int(session.get('z'))
+    distance = session.get('distance')
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    # Save it to a temporary buffer.
+    
+    plt.xticks(np.arange(-1000, 1000, 500))
+    plt.yticks(np.arange(-1000, 1000, 500))
+
+    # De stip
 
     x_list = [x]
     y_list = [y]
     z_list = [z]
 
     ax.scatter(x_list,y_list,z_list, zdir=z_list, c='r', marker='o')
+
+    # De lijn naar het xy-vlak
+
+    for i in range(z - 50, -1000, -50):
+        x_list.append(x)      
+        y_list.append(y)
+        z_list.append(i)
+
+    x_list.pop(0)
+    y_list.pop(0)
+    z_list.pop(0)
+
+    print("*** x_list: ",x_list)
+
+    ax.scatter(x_list,y_list,z_list, zdir=z_list, c='gray', marker='.')
+
+    # De assen
+
     ax.set_xlabel('x-axis')
     ax.set_ylabel('y-axis')
     ax.set_zlabel('z-axis')
@@ -303,16 +323,13 @@ def show_result():
     plt.xlim(-1000, 1000)
     plt.ylim(-1000, 1000)
 
-    #ax.title(tmp)
-
-
     buf = BytesIO()
     fig.savefig(buf, format="png")
     # Embed the result in the html output.
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     message = f"<img width='580px' height='auto' src='data:image/png;base64,{data}'/>"
 
-    return render_template('show_result.html', message = message)
+    return render_template('show_result.html', message = message, goto="/")
 
 @app.route("/report", methods=['GET', 'POST'])        
 def report():
@@ -348,5 +365,5 @@ def intro():
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
     session.clear()
-    return render_template("logout.html", goto="/start")
+    return render_template("logout.html", goto="/")
 
