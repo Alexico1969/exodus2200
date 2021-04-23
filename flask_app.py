@@ -10,6 +10,12 @@ import base64
 from io import BytesIO
 
 from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+import numpy as np
+
+
 
 app = Flask(__name__)
 app.secret_key = 'super secret key2'
@@ -264,12 +270,42 @@ def launch():
 def watch():
     return render_template('watch_launch.html')
 
+def randrange(n, vmin, vmax):
+    '''
+    Helper function to make an array of random numbers having shape (n, )
+    with each number distributed Uniform(vmin, vmax).
+    '''
+    return (vmax - vmin)*np.random.rand(n) + vmin
+
 @app.route("/show_result", methods=['GET', 'POST'])        
 def show_result():
-    fig = Figure()
-    ax = fig.subplots()
-    ax.plot([1, 2, 3, 4],[3,4,2,1])
+    x = 111
+    y = -222
+    z = 333
+    distance = 624000
+
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
     # Save it to a temporary buffer.
+
+    x_list = [x]
+    y_list = [y]
+    z_list = [z]
+
+    ax.scatter(x_list,y_list,z_list, zdir=z_list, c='r', marker='o')
+    ax.set_xlabel('x-axis')
+    ax.set_ylabel('y-axis')
+    ax.set_zlabel('z-axis')
+
+    tmp = 'distance to closest planet : ' + str(distance) + ' km'
+
+    plt.xlim(-1000, 1000)
+    plt.ylim(-1000, 1000)
+
+    #ax.title(tmp)
+
+
     buf = BytesIO()
     fig.savefig(buf, format="png")
     # Embed the result in the html output.
