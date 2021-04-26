@@ -360,7 +360,8 @@ def insert_hint(cur, hint):
     cur.connection.commit()
     return
 
-def get_hint(cur, index):
+def get_hint(cur, index=0):
+    print("*** index: ", index)
     cur.execute('''SELECT * FROM Hints''')
     records = cur.fetchall()
     hint = records[index][1]
