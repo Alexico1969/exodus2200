@@ -5,6 +5,7 @@ from database import read_invitation_codes, check_credentials, launch_probe, get
 from database import get_time,  closest_planet, report_list, get_user_planets, reports_exist
 from database import read_reports, process_login, insert_hint, get_hint, set_level, purge_guests
 from helper import hash_password, verify_password, time_left, random_username, random_password
+from datetime import date
 
 
 import base64
@@ -71,9 +72,10 @@ def home():
                 print("Going to route REPORTS")
                 return redirect(url_for('report'))
             elif request.form.get("action") == "lab":
-                timespan = session.get('timespan')
-                level = session.get('level')
-                if timespan == 0 and level > 0:
+                last_tip = str(session.get('tip_date'))
+                today = str(date.today)
+                level = get_level(cur, user)
+                if last_tip == today:
                     message = "The Tech Lab staff is on a well deserved break. Try again tomorrow."
                 else:
                     if level <= 12:
@@ -81,6 +83,7 @@ def home():
                         level += 1
                         set_level(cur, user, level)
                         session['level'] = level
+                        session['tip_date'] = today
                     else:
                         message = "Your Tech Lab staff is on a long, long vacation"
                 return render_template("message.html", message=message, goto="/")
@@ -118,6 +121,7 @@ def start():
                 session['user'] = username
                 session['state'] = "clear"
                 session['level'] = 0
+                session['tip_date'] = "clear"
                 add_user(cur, name, username, password, inv_code, level)
                 cur.close()
                 return redirect(url_for('intro'))
@@ -149,7 +153,7 @@ def login_page():
             print("## CHECKPOINT CHARLIE ##")
             session['level'] = get_level(cur, username)
             session['state'] = get_state(cur, username)
-            session['timespan'] = process_login(cur, username)
+            session['tip_date'] = "clear"
             if reports_exist(cur, username):
                 cur.close()
                 return render_template("message.html", message=message, goto="/")

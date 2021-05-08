@@ -187,6 +187,7 @@ def closest_planet(cur, user):
         print(" xyz = ", x, y, z)
 
         planets = []
+        planet_name = "Tygross"
         planets = get_planet_coords(cur)
         closest = 888888
         counter = 0
@@ -207,6 +208,7 @@ def closest_planet(cur, user):
 
             distance =  ((x-xp)**2 + (y-yp)**2 + (z-zp)**2)**(0.5)
             if distance < closest:
+                planet_name = planet[3]
                 closest = distance
                 if closest == 0:
                     planet_nr = counter
@@ -216,10 +218,17 @@ def closest_planet(cur, user):
                     print("yp = ",yp)
                     print("zp = ",zp)
                     print("",)
+                    x_final = xp
+                    y_final = yp
+                    z_final = zp
                     
             counter += 1
 
+
+
         closest = int(closest)
+
+
 
         session['distance'] = closest
 
@@ -235,7 +244,22 @@ def closest_planet(cur, user):
             output = "You have found planet " + name_found_planet +  " !"
             return output
         else:
-            return "Shortest distance to a planet = " + str(closest) + ".000 KM"
+            if x > x_final:
+                x_str = "high"
+            else:
+                x_str = "low"
+            if y > y_final:
+                y_str = "high"
+            else:
+                y_str = "low"
+            if z > z_final:
+                z_str = "high"
+            else:
+                z_str = "low"
+            
+            return_str = "Closest planet = " + planet_name + ";  <br> Distance = " + str(closest) + ".000 km ; <br>" + "Your x is too " + x_str + ";  <br>your y is too " + y_str + ";  <br>your z is too " + z_str
+            return_str += ";<br> [" + str(x) + "," + str(y) + "," + str(z) + "]"
+            return return_str
 
 def get_xyz(cur, user):
     coord_list = []
@@ -257,10 +281,11 @@ def get_planet_coords(cur):
     cur.execute('''SELECT * FROM Planets ''')
     records = cur.fetchall()
     for record in records:
+        name = record[1]
         x = record[2]
         y = record[3]
         z = record[4]
-        planets.append([x,y,z])
+        planets.append([x,y,z,name])
     return planets
 
 def name_planet(cur, found_planet):
