@@ -232,7 +232,7 @@ def closest_planet(cur, user):
 
         session['distance'] = closest
 
-        cur.execute('''INSERT INTO Reports (user_id, x_desto, y_desto, z_desto, dist_from_nearest) VALUES ( %s, %s, %s, %s, %s)''',(usr_id, x, y, z, distance))
+        cur.execute('''INSERT INTO Reports (user_id, x_desto, y_desto, z_desto, dist_from_nearest) VALUES ( %s, %s, %s, %s, %s)''',(usr_id, x, y, z, closest))
         cur.connection.commit()
         print("-->  About to be deleted : All lauches with user id ", usr_id)
         cur.execute('''DELETE FROM Launches WHERE user_id = %s''',(usr_id,))
@@ -244,17 +244,21 @@ def closest_planet(cur, user):
             output = "You have found planet " + name_found_planet +  " !"
             return output
         else:
+            x_str = "---"
+            y_xtr = "---"
+            z_str = "---"
+
             if x > x_final:
                 x_str = "high"
-            else:
+            elif x > x_final:
                 x_str = "low"
             if y > y_final:
                 y_str = "high"
-            else:
+            elif y < y_final:
                 y_str = "low"
             if z > z_final:
                 z_str = "high"
-            else:
+            elif z < z_final:
                 z_str = "low"
             
             return_str = "Closest planet = " + planet_name + ";  <br> Distance = " + str(closest) + ".000 km ; <br>" + "Your x is too " + x_str + ";  <br>your y is too " + y_str + ";  <br>your z is too " + z_str

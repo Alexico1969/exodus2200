@@ -19,13 +19,6 @@ def verify_password(stored_password, provided_password):
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == stored_password
 
-def time_left(launch_time):
-    now = datetime.datetime.now()
-    diff = now - launch_time
-    minutes = int((diff.total_seconds())/60)
-    print("minutes = " , minutes)
-    return minutes
-
 def random_username():
     temp_string = "guest_"
     now = datetime.datetime.now()

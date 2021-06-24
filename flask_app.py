@@ -4,7 +4,7 @@ from database import create_tables, add_test_data, read_user_data, read_planet_d
 from database import read_invitation_codes, check_credentials, launch_probe, get_level, get_state, change_state
 from database import get_time,  closest_planet, report_list, get_user_planets, reports_exist
 from database import read_reports, process_login, insert_hint, get_hint, set_level, purge_guests
-from helper import hash_password, verify_password, time_left, random_username, random_password
+from helper import hash_password, verify_password, random_username, random_password
 from datetime import date
 
 
@@ -44,10 +44,7 @@ def home():
         time = 0
         if state:
             if state == 'launched':
-                time = time_left(get_time(cur))
-                if time <= 0:
-                    print("landed")
-                    change_state(cur, user, "landed")
+                change_state(cur, user, "landed")
         else:
             state = 'error'
 
@@ -60,14 +57,9 @@ def home():
             elif request.form.get("action") == "launch":
                 return redirect(url_for('launch'))
             elif request.form.get("action") == "read":
-                time = time_left(get_time(cur))
-                if time <= 0:
-                    message = closest_planet(cur, user)
-                    change_state(cur, user, "clear")
-                    return render_template("message.html", message=message, goto="/show_result")
-                else:
-                    message = "Probe is still on it's way..."
-                    return render_template("message.html", message=message, goto="/")
+                message = closest_planet(cur, user)
+                change_state(cur, user, "clear")
+                return render_template("message.html", message=message, goto="/show_result")
             elif request.form.get("action") == "reports":
                 print("Going to route REPORTS")
                 return redirect(url_for('report'))
