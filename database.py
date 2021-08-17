@@ -245,7 +245,7 @@ def closest_planet(cur, user):
             return output
         else:
             x_str = "---"
-            y_xtr = "---"
+            y_str = "---"
             z_str = "---"
 
             if x > x_final:
@@ -261,8 +261,13 @@ def closest_planet(cur, user):
             elif z < z_final:
                 z_str = "low"
             
-            return_str = "Closest planet = " + planet_name + ";  <br> Distance = " + str(closest) + ".000 km ; <br>" + "Your x is too " + x_str + ";  <br>your y is too " + y_str + ";  <br>your z is too " + z_str
-            return_str += ";<br> [" + str(x) + "," + str(y) + "," + str(z) + "]"
+            return_str = "Closest planet = " + planet_name + ";  <br> Distance = " + str(closest) + ".000 km<br>" + "Your x is too " + x_str + "  <br>your y is too " + y_str + "<br>your z is too " + z_str
+            return_str += "<br> [" + str(x) + "," + str(y) + "," + str(z) + "]"
+
+            print("******", return_str)
+
+            return_str = return_str.replace('too ---', 'correct!')
+
             return return_str
 
 def get_xyz(cur, user):
