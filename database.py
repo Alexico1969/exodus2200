@@ -187,7 +187,7 @@ def closest_planet(cur, user):
         print(" xyz = ", x, y, z)
 
         planets = []
-        planet_name = "Tygross"
+        planet_name = "Unknown"
         planets = get_planet_coords(cur)
         closest = 888888
         counter = 0
@@ -250,7 +250,7 @@ def closest_planet(cur, user):
 
             if x > x_final:
                 x_str = "high"
-            elif x > x_final:
+            elif x < x_final:
                 x_str = "low"
             if y > y_final:
                 y_str = "high"
