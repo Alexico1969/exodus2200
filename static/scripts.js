@@ -38,7 +38,12 @@ $(document).ready(function(){
     /* ----------- X ------------- */
 
     function add_x_100(){
-      if (x<900){x += 100;}
+      if (x<900){
+        x += 100;
+      } else {
+        x -= 900;
+      }
+
       const output = Math.abs(parseInt(x/100));
       $("#x_100").html(output);
       if(x>=0){$("#x_pm").text("+")}
