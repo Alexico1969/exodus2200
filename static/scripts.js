@@ -87,13 +87,16 @@ $(document).ready(function(){
     /* ----------- Y ------------- */
 
     function add_y_100(){
-      if (y<900){y += 100;}
+      if (y<900){
+        y += 100;
+      } else {
+        x -= 900;
+      }
       const output = Math.abs(parseInt(y/100));
       $("#y_100").html(output);
       if(y>=0){$("#y_pm").text("+")}
-    } else {
-      x -= 900;
-    }
+    } 
+
 
     function sub_y_100(){
       if (y>=100){y -= 100;}
@@ -103,12 +106,14 @@ $(document).ready(function(){
 
     function add_y_10(){
       var mid = grabMid(y);
-      if (mid<9){y += 10;}
+      if (mid<9){
+        y += 10;
+      } else {
+        x -= 90;
+      }
       const output = grabMid(y);
       $("#y_10").html(output);
-    } else {
-      x -= 90;
-    }
+    } 
 
     function sub_y_10(){
       var mid = grabMid(y);
@@ -119,12 +124,14 @@ $(document).ready(function(){
 
     function add_y_1(){
       var low = grabLow(y);
-      if (low<9){y += 1;}
+      if (low<9){
+        y += 1;
+      } else {
+        x -= 9;
+      }
       const output = grabLow(y);
       $("#y_1").html(output);
-    } else {
-      x -= 9;
-    }
+    } 
 
     function sub_y_1(){
       var low = grabLow(y);
@@ -137,12 +144,14 @@ $(document).ready(function(){
     /* ----------- Z ------------- */
 
     function add_z_100(){
-      if (z<900){z += 100;}
+      if (z<900){
+        z += 100;
+      } else{
+        x -= 900;
+      }
       const output = Math.abs(parseInt(z/100));
       $("#z_100").html(output);
       if(z>=0){$("#z_pm").text("+")}
-    }else{
-      x -= 900;
     }
 
     function sub_z_100(){
@@ -153,12 +162,14 @@ $(document).ready(function(){
 
     function add_z_10(){
       var mid = grabMid(z);
-      if (mid<9){z += 10;}
+      if (mid<9){
+        z += 10;
+      } else {
+        x -= 90;
+      }
       const output = grabMid(z);
       $("#z_10").html(output);
-    } else {
-      x -= 90;
-    }
+    } 
 
     function sub_z_10(){
       var mid = grabMid(z);
@@ -169,12 +180,14 @@ $(document).ready(function(){
 
     function add_z_1(){
       var low = grabLow(z);
-      if (low<9){z += 1;}
+      if (low<9){
+        z += 1;
+      } else {
+        x -= 9;
+      }
       const output = grabLow(z);
       $("#z_1").html(output);
-    } else {
-      x -= 9;
-    }
+    } 
 
     function sub_z_1(){
       var low = grabLow(z);
