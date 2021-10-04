@@ -91,6 +91,8 @@ $(document).ready(function(){
       const output = Math.abs(parseInt(y/100));
       $("#y_100").html(output);
       if(y>=0){$("#y_pm").text("+")}
+    } else {
+      x -= 900;
     }
 
     function sub_y_100(){
@@ -104,6 +106,8 @@ $(document).ready(function(){
       if (mid<9){y += 10;}
       const output = grabMid(y);
       $("#y_10").html(output);
+    } else {
+      x -= 90;
     }
 
     function sub_y_10(){
@@ -118,6 +122,8 @@ $(document).ready(function(){
       if (low<9){y += 1;}
       const output = grabLow(y);
       $("#y_1").html(output);
+    } else {
+      x -= 9;
     }
 
     function sub_y_1(){
@@ -135,6 +141,8 @@ $(document).ready(function(){
       const output = Math.abs(parseInt(z/100));
       $("#z_100").html(output);
       if(z>=0){$("#z_pm").text("+")}
+    }else{
+      x -= 900;
     }
 
     function sub_z_100(){
@@ -148,6 +156,8 @@ $(document).ready(function(){
       if (mid<9){z += 10;}
       const output = grabMid(z);
       $("#z_10").html(output);
+    } else {
+      x -= 90;
     }
 
     function sub_z_10(){
@@ -162,6 +172,8 @@ $(document).ready(function(){
       if (low<9){z += 1;}
       const output = grabLow(z);
       $("#z_1").html(output);
+    } else {
+      x -= 9;
     }
 
     function sub_z_1(){
